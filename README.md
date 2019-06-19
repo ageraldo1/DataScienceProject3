@@ -20,15 +20,15 @@ iii. Education - Highest degree level\
  ii. Occupation\
  iii. Method of Travel\
  iv. Hrs. of work\
- - 2.4 Unemployment factors\
+ - 2.4 Unemployment factors
 
-* To do:
- 1. Extract and clean data (HS)
- 2. Initial "fishing" of data
+3. To do:
+ * Extract and clean data (HS)
+ * Initial "fishing" of data
   
- * Next meeting: 
- 1. Go over data
- 2. Develop story?
+4. Next meeting: 
+ * Go over data
+ * Develop story?
  
     
 ### June 15 (Thurs)
