@@ -6,10 +6,22 @@ GT Boot camp Project #3
 * Discussion: 
  1. Similary focus as the Machine Destroys/Creates Jobs article
  2. Variables to examine by impact of machine usage\
-  i. Agriculture, Forestry, & Fishing (Mining?) --> Lowest usage? \
+ - 2.1. Industry
+   i. Agriculture, Forestry, & Fishing (Mining?) --> Lowest usage? \
   ii. Manufactoring --> Mid usage?\
  iii. Information & Communication --> Highest usage?\
   iv. Education, Health, & Social Science --> No/low usage?\
+- 2.2 Person data\
+  i. Demographics- age, sex, race, marital status\
+ ii. Total family income\
+iii. Education - Highest degree level\
+- 2.3 Work Elements \
+  i. Industry\
+ ii. Occupation\
+ iii. Method of Travel\
+ iv. Hrs. of work\
+ - 2.4 Unemployment factors\
+
 * To do:
  1. Extract and clean data (HS)
  2. Initial "fishing" of data
