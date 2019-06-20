@@ -5,21 +5,21 @@ GT Boot camp Project #3
 * New Topic: The Impact of Machines on Our Jobs
 * Discussion: 
  1. Similary focus as the Machine Destroys/Creates Jobs article
- 2. Variables to examine by impact of machine usage\
- - 2.1. Industry
+ 2. Variables to examine by impact of machine usage
+ - 2.1. Industry\
    i. Agriculture, Forestry, & Fishing (Mining?) --> Lowest usage? \
   ii. Manufactoring --> Mid usage?\
  iii. Information & Communication --> Highest usage?\
-  iv. Education, Health, & Social Science --> No/low usage?\
+  iv. Education, Health, & Social Science --> No or low usage?
 - 2.2 Person data\
   i. Demographics- age, sex, race, marital status\
  ii. Total family income\
-iii. Education - Highest degree level\
+iii. Education - Highest degree level
 - 2.3 Work Elements \
   i. Industry\
  ii. Occupation\
  iii. Method of Travel\
- iv. Hrs. of work\
+ iv. Hrs. of work
  - 2.4 Unemployment factors
 
 3. To do:
