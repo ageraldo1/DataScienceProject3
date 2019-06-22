@@ -3,6 +3,7 @@ from flask import Flask, jsonify, render_template
 from datetime import datetime as dt
 import pandas as pd
 import numpy as np
+# from flask_restplus import Resource, Api, Namespace
 
 #################################################
 # Flask Setup
@@ -39,9 +40,31 @@ def states():
     results=cur.fetchall()
     states_group=[]
     for result in results:
-        states_group.append(dict(state=result[0],industry=result[1],year=result[2],total_population=result[3],income=result[4],pct_urban=result[5]))
+        states_group.append(dict(state=result[0],industry=result[1],year=result[2],total_population=result[3],education=result[4],income=result[5]))
     return jsonify(states_group)
 
+@app.route("/time_series")
+def time_series():
+    conn = sqlite3.connect("./data//mockdata.sqlite")
+    cur = conn.cursor()
+    cur.execute("SELECT count(total_pop) AS Jobs, Industry,year FROM mockdata GROUP BY Industry,year")
+    results=cur.fetchall()
+    time_group=[]
+    for result in results:
+        time_group.append(dict(jobs=result[0],industry=result[1],year=result[2]))
+    return jsonify(time_group)
+
+
+@app.route("/time_range/<start>/<end>")
+def time_ranged_data(start, end):
+    conn = sqlite3.connect("./data//mockdata.sqlite")
+    cur = conn.cursor()
+    cur.execute(f"SELECT total_pop, year FROM mockdata WHERE year >= {start} and year <= {end} ;")
+    results=cur.fetchall()
+    range_group=[]
+    for result in results:
+        range_group.append(dict(jobs=result[0],year=result[1]))
+    return jsonify(range_group)
 
 # @app.route("/api/v1.0/precipitation/")
 # def precipitation():
@@ -56,19 +79,7 @@ def states():
 #     {precip_dict.setdefault(key, []).append(precip) for key, precip in result}
 #     return jsonify(precip_dict)
 
-# @app.route("/api/v1.0/stations")
-# def stations():
-#     # connect to the db
-#     conn = sqlite3.connect("../Resources/hawaii.sqlite")
-#     cur = conn.cursor()
-#     #select the station data
-#     cur.execute("SELECT station, name, latitude, longitude, elevation FROM station")
-#     results=cur.fetchall()
-#     stations_list=[]
-#     # add the results to a list of dictionaries
-#     for result in results:
-#         stations_list.append(dict(station=result[0],name=result[1],lattitude=result[2],longitude=result[3],elevation=result[4]))
-#     return jsonify(stations_list)
+
 
 # @app.route("/api/v1.0/tob/")
 # def tob():
