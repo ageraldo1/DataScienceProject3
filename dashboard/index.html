@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css"/>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <title>Skynet Data Science</title>
+
+</head>
+<body class="bg-light">     
+
+       <div class="loader" id="spinner" style='display:none'></div>
+
+        <ul class="nav navbar-light justify-content-end bg-info">
+            <li class="nav-item">
+                <a class="nav-link active text-white" href="#" data-toggle="modal" data-target="#exampleModal">Filter</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#">Refresh</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#">About</a>
+            </li>
+        </ul>
+        
+          
+        
+    
+
+    <div class="container-fluid">       
+
+        <div class="row">
+            <div class="col-8">
+              <p class="font-weight-bold">Period</p>
+              <p>
+                <input type="text" class="js-range-slider" name="my_range" value="" />
+              </p>
+            </div>
+            <div class="col">
+              <div class="gauge" id="gauge_income"></div>
+            </div>
+
+            <div class="col">
+              <div class="gauge" id="gauge_employment"></div>            
+            </div>
+
+            <div class="col">
+              <div class="gauge" id="gauge_education"></div>
+            </div>
+        </div>
+<!--
+        <div class="row bg-info">
+            <div class="col lead text-white">Visualizations</div>
+        </div>
+-->        
+    
+        <hr>
+        <div class="row">
+            <div class="col-6" id="curve_chart"></div>
+            <div class="col-6" id="regions_div"></div>
+        </div>
+
+        <div class="row">
+                <div class="col-6" id="piechart_3d"></div>
+                <div class="col-6" id="bars_chart"></div>
+        </div>            
+    </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Filtering</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Industry</p>
+              <p>State</p>
+              <p>Start Year</p>
+              <p>End Year</p>
+              <p>Education Level</p>
+              <p>Race</p>
+              <p>Gender</p>
+              
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Apply</button>
+            </div>
+          </div>
+        </div>
+      </div>    
+
+      <div class="container-fluid">
+          <nav class="navbar fixed-bottom navbar-light bg-info">
+              <footer>
+                  <div id="message" class="footer text-white">Info Message</div>
+              </footer>
+          </nav>            
+    </div>   
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
+
+    <script src="js/raphael-2.1.4.min.js"></script>
+    <script src="js/justgage.js"></script>
+
+    <script src="js/config.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/graph.js"></script>
+
+</body>
+</html>
