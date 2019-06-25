@@ -63,7 +63,13 @@ function plotGeoMap(year) {
         height: 400,
         backgroundColor: { fill: 'transparent' },
         region: "US",        
-        resolution: "provinces"
+        resolution: "provinces",
+        animation: {
+          "startup": true,
+          duration: 2000,
+          easing: 'out'
+        },      
+  
       };
 
 
@@ -96,11 +102,12 @@ function plotPie(year) {
         width: 600,
         height: 400,
         backgroundColor: { fill:'transparent' },
-        animation:{
-          duration: 1000,
-          easing: 'out',
-          startup: true
+        animation: {
+          "startup": true,
+          duration: 2000,
+          easing: 'out'
         }
+  
       };      
   
       let chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
@@ -140,10 +147,11 @@ function plotBars(year) {
         vAxis: {
           title: 'City'
         },
-        animation:{
-          duration: 1000,
+        animation: {
+          "startup": true,
+          duration: 2000,
           easing: 'out'
-        },
+        },        
       };
       var chart = new google.visualization.BarChart(document.getElementById('bars_chart'));
       chart.draw(dataTable, options);
@@ -178,14 +186,13 @@ function plotBubbleChart(year) {
         textStyle: {
           auraColor: 'none',
         },
-        opacity: 0.5,
-
-        animation:{
-          duration: 1000,
-          easing: 'out'
-        },
-
-      }
+        opacity: 0.5,        
+      },
+      animation: {
+        "startup": true,
+        duration: 2000,
+        easing: 'out'
+      },      
     };
 
     var chart = new google.visualization.BubbleChart(document.getElementById('curve_chart'));
@@ -288,3 +295,8 @@ function init() {
 }
 
 init();
+
+// resize
+// http://flopreynat.com/blog/make-google-charts-responsive.html
+// https://codepen.io/flopreynat/pen/BfLkA
+// https://stackoverflow.com/questions/33604755/google-charts-how-to-auto-re-size-inside-panel
