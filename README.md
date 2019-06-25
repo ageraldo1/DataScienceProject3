@@ -1,6 +1,22 @@
 # DataScienceProject3
 GT Boot camp Project #3
 
+
+### June 25 (Tue)
+* Alex activities
+1. Dashboard: Present & review dashboard changes
+    + URL : https://ageraldo1.github.io/DataScienceProject3/dashboard/index.html
+
+2. Define visualizations
+    + Visualizations will be based on story telling.
+
+3. Define API endpoints
+    + Based on visualization definition.
+
+4. Integrate Flask & Dashboard
+
+5. Deployment to Heroku
+
 ### June 18 (Tues)
 * New Topic: The Impact of Machines on Our Jobs
 * Discussion: 
