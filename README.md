@@ -9,6 +9,13 @@ GT Boot camp Project #3
 
 2. Define visualizations
     + Visualizations will be based on story telling.
+    + Story Plot ( one visualization for each stage ???)
+        + **Background :** This includes the introduction of characters and setting.
+        + **Rising Action :** This includes the events leading up to the main problem or conflict.
+        + **Climax :** This is when the problem reaches a high point.
+        + **Falling Action :** This is when the characters work to solve the problem or conflict.
+        + **Resolution :** This is how things end up in the story.
+
 
 3. Define API endpoints
     + Based on visualization definition.

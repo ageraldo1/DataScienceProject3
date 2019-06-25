@@ -247,7 +247,7 @@ function createFilters(period) {
 
   $(".js-range-slider").ionRangeSlider({
     skin: 'round',
-    type: 'single',
+    type: 'double',
     values: period,
     grid: true,
     grid_snap: true,
