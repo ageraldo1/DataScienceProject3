@@ -1,6 +1,21 @@
 # DataScienceProject3
 GT Boot camp Project #3
+### June 26
+* All data summaries extraced and provided to group as csv
+* Code book (v2) provides the explanations and values for each variable.
 
+
+### June 25 (Tues)
+* Data conversation
+1. Year starts at 1960
+2. Age ge 18 (boss' decision)
+3. Sub categories (related to machinery) of Manufacturing will be examined
+
+*Results will be posted as PDF's until a final decision is made about the output
+1. Examine PDF's 
+2. Ideas about how to examine the data differently?
+
+   
 
 ### June 25 (Tue)
 * Alex activities
