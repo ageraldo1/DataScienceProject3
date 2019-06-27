@@ -23,47 +23,59 @@ def index():
 @app.route("/timespan")
 def years():
     # connect to the db
-    conn = sqlite3.connect("./data/mockdata.sqlite")
+    conn = sqlite3.connect("./data/alternate_data.db")
     cur = conn.cursor()
-    cur.execute("SELECT DISTINCT year FROM mockdata ORDER BY year")
+    cur.execute("SELECT DISTINCT year FROM alternate_data ORDER BY year")
     results=cur.fetchall()
     year_list=[]
     for result in results:
         year_list.append(result[0])
     return jsonify(year_list)
 
-@app.route("/states_group")
-def states():
-    conn = sqlite3.connect("./data/mockdata.sqlite")
+@app.route("/states")
+def states_list():
+    # connect to the db
+    conn = sqlite3.connect("./data/alternate_data.db")
     cur = conn.cursor()
-    cur.execute("SELECT state, Industry,year,total_pop,education,income,pct_urb FROM mockdata GROUP BY state")
+    cur.execute("SELECT DISTINCT st FROM alternate_data ORDER BY year")
+    results=cur.fetchall()
+    states_list=[]
+    for result in results:
+        states_list.append(result[0])
+    return jsonify(states_list)
+
+@app.route("/states_group")
+def states_group():
+    conn = sqlite3.connect("./data/alternate_data.db")
+    cur = conn.cursor()
+    cur.execute("SELECT st, occ_title, year ,tot_emp, h_median FROM alternate_data GROUP BY st;")
     results=cur.fetchall()
     states_group=[]
     for result in results:
-        states_group.append(dict(state=result[0],industry=result[1],year=result[2],total_population=result[3],education=result[4],income=result[5]))
+        states_group.append(dict(state=result[0],industry=result[1],year=result[2],number_employed=result[3],median_hourly=result[4]))
     return jsonify(states_group)
 
 @app.route("/time_series")
 def time_series():
-    conn = sqlite3.connect("./data//mockdata.sqlite")
+    conn = sqlite3.connect("./data/alternate_data.db")
     cur = conn.cursor()
-    cur.execute("SELECT count(total_pop) AS Jobs, Industry,year FROM mockdata GROUP BY Industry,year")
+    cur.execute("SELECT tot_emp, year, st, occ_title, h_median FROM alternate_data;")
     results=cur.fetchall()
     time_group=[]
     for result in results:
-        time_group.append(dict(jobs=result[0],industry=result[1],year=result[2]))
+        time_group.append(dict(number_employed=result[0],year=result[1],state=result[2],industry=result[3], median_hourly=result[4]))
     return jsonify(time_group)
 
 
 @app.route("/time_range/<start>/<end>")
 def time_ranged_data(start, end):
-    conn = sqlite3.connect("./data//mockdata.sqlite")
+    conn = sqlite3.connect("./data/alternate_data.db")
     cur = conn.cursor()
-    cur.execute(f"SELECT total_pop, year FROM mockdata WHERE year >= {start} and year <= {end} ;")
+    cur.execute(f"SELECT tot_emp, year, st, occ_title, h_median FROM alternate_data WHERE year >= {start} and year <= {end} ;")
     results=cur.fetchall()
     range_group=[]
     for result in results:
-        range_group.append(dict(jobs=result[0],year=result[1]))
+        range_group.append(dict(jobs=result[0],year=result[1],state=result[2],industry=result[3], median_hourly=result[4]))
     return jsonify(range_group)
 
 # @app.route("/api/v1.0/precipitation/")
