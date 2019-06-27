@@ -9,33 +9,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css"/>
     <link rel="stylesheet" href="css/styles.css">
 
-    <title>Skynet Data Science</title>
+    <title>Skynet Data Science Dashboard</title>
 
 </head>
 <body class="bg-light">     
 
+       <!-- Loading screen component -->
        <div class="loader" id="spinner" style='display:none'></div>
 
-        <ul class="nav navbar-light justify-content-end bg-info">
-            <li class="nav-item">
-                <a class="nav-link active text-white" href="#" data-toggle="modal" data-target="#exampleModal">Filter</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" href="#">Refresh</a>
+        <ul class="nav navbar-light bg-info justify-content-end">           
+            <li class="nav-item justify-content-center">
+                <a class="nav-link text-white" href="javascript:refresh()">Refresh</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white" href="#">About</a>
+                <a class="nav-link text-white" href="javascript:plotSummary()">Summary</a>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link text-white" href="#" data-toggle="modal" data-target="#aboutModal">About</a>
             </li>
         </ul>
-        
-          
-        
-    
 
+    <!-- Main Container -->
     <div class="container-fluid">       
 
-        <div class="row  justify-content-center">
+        <div class="row justify-content-center d-none" id="row1">
             <div class="col-8">
               <p class="font-weight-bold">Period</p>
               <p>
@@ -50,72 +50,140 @@
               <div class="gauge" id="gauge_employment"></div>            
             </div>
 
-            <div class="col-1 align-self-end">
-              <div class="gauge" id="gauge_education"></div>
+            <div class="col-1">
+              <div class="gauge" id="gauge_unemployment"></div>
             </div>
         </div>
-<!--
-        <div class="row bg-info">
-            <div class="col lead text-white">Visualizations</div>
-        </div>
--->        
-    
+
         <hr>
-        <div class="row">
-            <div class="col-6" id="curve_chart"></div>
-            <div class="col-6" id="regions_div"></div>
+        <div class="row d-none" id="row2">
+            <div class="col-6 text-center font-weight-bold" id="view1_title">Correlation between employment, income and age accross industries</div>
+            <div class="col-6 text-center font-weight-bold" id="view2_title">Employment Ratio across the US
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="selectIndustry">Industry</label>
+                    </div>
+
+                    <select class="custom-select" id="selectIndustry">
+                      <option value="0" selected>Agriculture</option>
+                      <option value="1">Manufacturing</option>
+                      <option value="2">Business</option>
+                      <option value="3">Professional</option>
+                      <option value="4">Public</option>
+                    </select>
+                </div>              
+            </div>
         </div>
 
         <div class="row">
-                <div class="col-6" id="piechart_3d"></div>
-                <div class="col-6" id="bars_chart"></div>
+          <div class="col-6" id="view1_plot"></div>
+          <div class="col-6" id="view2_plot"></div>
+        </div>
+        
+
+        <div class="row d-none" id="row3">
+            <div class="col-6 text-center font-weight-bold" id="view3_title">Education Level accross industries</div>
+            <div class="col-6 text-center font-weight-bold" id="view4_title">Gender Jobs Distribution</div>
+        </div>            
+      
+
+        <div class="row">
+            <div class="col-6" id="view3_plot"></div>
+            <div class="col-3" id="view4_left"></div>
+            <div class="col-3" id="view4_right"></div>
         </div>            
     </div>
 
+    <!-- Graph Modal -->
+    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" id="plotmodal">
+      <div class="modal-dialog modal-xl  modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="generic_plot_header"></h5>
+          </div>    
+          <div class="modal-body">
+              <div id="generic_plot_area"> </div>
+              <div class="container">
+                <div class="row">
+                  <div class="col-6"><div id="generic_plot_area_left"> </div></div>
+                  <div class="col-6"><div id="generic_plot_area_right"> </div></div>
+                </div> 
+              </div>
+          </div>    
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <!-- About Modal -->
+    <div class="modal fade bd-example-modal-lg" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Filtering</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+              <h5 class="modal-title" id="aboutModalLabel">About</h5>
             </div>
             <div class="modal-body">
-              <p>Industry</p>
-              <p>State</p>
-              <p>Start Year</p>
-              <p>End Year</p>
-              <p>Education Level</p>
-              <p>Race</p>
-              <p>Gender</p>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-6">
+                      <div class="col-6 font-weight-bold">Group Members</div>                      
+                  </div>
+                  <div class="col-6">
+                      <div class="col-6 font-weight-bold">Technologies</div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-6">
+                      <p>Alexandre Geraldo</p>
+                      <p>Hi Shin Shim</p>
+                      <p>Krishan Sharma</p>
+                      <p>Navneet Gupta</p>
+                      <p>Robert Schroer</p>        
+                  </div>
+                  <div class="col-6">
+                      <p>Google Charts</p>
+                      <p>Bootstrap</p>
+                      <p>ION RangeSlider</p>
+                      <p>JustGauge</p>        
+                  </div>
+
+                </div>
+              </div>
               
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Apply</button>
             </div>
           </div>
         </div>
       </div>    
 
-      <div class="container-fluid">
-          <nav class="navbar fixed-bottom navbar-light bg-info">
-              <footer>
-                  <div id="message" class="footer text-white">Info Message</div>
-              </footer>
-          </nav>            
-    </div>   
+    <!-- Summary Modal -->
+    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" id="summarymodal">
+        <div class="modal-dialog modal-xl  modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title"> Summary</h5>
+            </div>    
+            <div class="modal-body">
+                <div id="summary_plot"> </div>
+            </div>    
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+    </div>  
 
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
 
     <script src="js/raphael-2.1.4.min.js"></script>
@@ -123,7 +191,7 @@
 
     <script src="js/config.js"></script>
     <script src="js/index.js"></script>
-    <script src="js/graph.js"></script>
+    <script src="js/dashboard.js"></script>
 
 </body>
 </html>

@@ -49,18 +49,18 @@ function plotGeoMap(year) {
     let dataTable = new google.visualization.DataTable();
         
     dataTable.addColumn('string', 'State');
-    dataTable.addColumn('number', 'Total of Jobs Available');
-    dataTable.addColumn('number', 'Total of Incoming');
+    dataTable.addColumn('number', 'Employment');
+    //dataTable.addColumn('number', 'UnEmployment');
     
     let states = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Hawaii","Idaho","Illinois", "Virginia"];
     states.forEach(item => {
-      dataTable.addRow([item, getRandomInt(0, 1000), getRandomInt(0, 1000)]);          
+      dataTable.addRow([item, getRandomInt(1, 100)]);          
     });     
 
     var options = {
       colorAxis: {colors: ['blue']},
-        width: 600,
-        height: 400,
+       // width: 600,
+       // height: 400,
         backgroundColor: { fill: 'transparent' },
         region: "US",        
         resolution: "provinces",
@@ -68,7 +68,8 @@ function plotGeoMap(year) {
           "startup": true,
           duration: 2000,
           easing: 'out'
-        },      
+        }
+        //displayMode: 'markers'   
   
       };
 
@@ -87,34 +88,73 @@ function plotPie(year) {
 
       let dataTable = new google.visualization.DataTable();
 
-      dataTable.addColumn('string', 'Task');
-      dataTable.addColumn('number', 'Hours per Day');
+      dataTable.addColumn('string', 'Gender');
+      dataTable.addColumn('number', 'Employment');
 
-      dataTable.addRow(['Work', getRandomInt(0, 24)]);
-      dataTable.addRow(['Eat', getRandomInt(0, 24)]);
-      dataTable.addRow(['Commute', getRandomInt(0, 24)]);
-      dataTable.addRow(['Watch TV', getRandomInt(0, 24)]);
-      dataTable.addRow(['Sleep', getRandomInt(0, 24)]);
+      dataTable.addRow(['Male', getRandomInt(0, 1000)]);
+      dataTable.addRow(['Female', getRandomInt(0, 1000)]);
 
       let options = {
-        title: 'My Daily Activities',
-        is3D: true,
-        width: 600,
-        height: 400,
+        title: 'Employment',
+        legend: 'none',
+        pieSliceText: 'label',
+        pieStartAngle: 100,
+        slices : { 0: { 
+                        offset: 0.1,
+                        color: '#6e679e'
+                      },
+                   1: {
+                     color: '#353052'
+                   }
+                 },
         backgroundColor: { fill:'transparent' },
         animation: {
           "startup": true,
           duration: 2000,
           easing: 'out'
-        }
-  
+        }  
       };      
   
-      let chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+      let chart = new google.visualization.PieChart(document.getElementById('view4_left'));
       chart.draw(dataTable, options);
-
-
     });
+
+
+    google.charts.setOnLoadCallback(() => {
+
+      let dataTable = new google.visualization.DataTable();
+
+      dataTable.addColumn('string', 'Gender');
+      dataTable.addColumn('number', 'Unemployment');
+
+      dataTable.addRow(['Male', getRandomInt(0, 1000)]);
+      dataTable.addRow(['Female', getRandomInt(0, 1000)]);
+
+      let options = {
+        title: 'UnEmployment',
+        legend: 'none',
+        pieSliceText: 'label',
+        slices: {
+          0: {
+            offset: 0.1,
+            color: '#6e679e'
+          },
+          1: {
+            color: '#353052'
+          }
+        },
+        pieStartAngle: 100,
+        backgroundColor: { fill: 'transparent' },
+        animation: {
+          "startup": true,
+          duration: 2000,
+          easing: 'out'
+        }
+      };      
+  
+      let chart = new google.visualization.PieChart(document.getElementById('view4_right'));
+      chart.draw(dataTable, options);
+    });    
 }
 
 
@@ -137,7 +177,7 @@ function plotBars(year) {
     
       let options = {
         title: 'Population of Largest U.S. Cities',
-        chartArea: {width: '50%'},
+        //chartArea: {width: '50%'},
         isStacked: true,
         backgroundColor: { fill:'transparent' },
         hAxis: {
@@ -167,24 +207,31 @@ function plotBubbleChart(year) {
 
     let dataTable = new google.visualization.DataTable();
     
-    dataTable.addColumn('string', 'Industry');
-    dataTable.addColumn('number', 'Employment');
-    dataTable.addColumn('number', 'Incoming');    
-    dataTable.addColumn('number', 'Age');
+    dataTable.addColumn('string', 'Industry');    
+    dataTable.addColumn('number', 'Total Employment');
+    dataTable.addColumn('number', 'Average Income');
+    dataTable.addColumn('number', 'Average Age');
 
-    dataTable.addRow(['Agriculture',getRandomInt(0, 100), getRandomInt(0, 10), getRandomInt(0, 65)]);
-    dataTable.addRow(['Manufactoring',getRandomInt(0, 100), getRandomInt(0, 10), getRandomInt(0, 65)]);
-    dataTable.addRow(['Healthcare',getRandomInt(0, 100), getRandomInt(0, 10), getRandomInt(0, 65)]);
-    dataTable.addRow(['Others',getRandomInt(0, 100), getRandomInt(0, 10), getRandomInt(0, 65)]);
+    dataTable.addRow(['Agriculture', getRandomInt(0, 100), getRandomInt(0, 1000), getRandomInt(18, 70)]);
+    dataTable.addRow(['Manufacturing', getRandomInt(0, 100), getRandomInt(0, 1000), getRandomInt(18, 70)]);
+    dataTable.addRow(['Business', getRandomInt(0, 100), getRandomInt(0, 1000), getRandomInt(18, 70)]);
+    dataTable.addRow(['Professional', getRandomInt(0, 100), getRandomInt(0, 1000), getRandomInt(18, 70)]);
+    dataTable.addRow(['Public', getRandomInt(0, 100), getRandomInt(0, 1000), getRandomInt(18, 70)]); 
+
 
     let options = {
-      title: 'Correlation between employment rates and total incoming per industry',
-      hAxis: {title: 'Employment'},
-      vAxis: {title: 'Incoming'},
+      //title: 'Correlation between employment, income and age accross industries',
+      //titleTextStyle: {
+      //  fontSize : 16,
+      //  bold: true
+      //},
+      hAxis: {title: 'Employment', bold: true},
+      vAxis: {title: 'Average Incoming'},
       backgroundColor: { fill:'transparent' },
+      colorAxis: {colors: ['#6F6EA0']},
       bubble: {
         textStyle: {
-          auraColor: 'none',
+          auraColor: 'none'
         },
         opacity: 0.5,        
       },
@@ -192,7 +239,11 @@ function plotBubbleChart(year) {
         "startup": true,
         duration: 2000,
         easing: 'out'
-      },      
+      },
+      chartArea : {
+        width:'85%',
+        height:'70%'
+      }      
     };
 
     var chart = new google.visualization.BubbleChart(document.getElementById('curve_chart'));
@@ -203,6 +254,105 @@ function plotBubbleChart(year) {
   });
 
 
+
+}
+
+
+function plotComboChart(year) {
+
+  google.charts.load("current", {packages:["corechart", "bar"]});
+  google.charts.setOnLoadCallback(() => {
+
+    let dataTable = new google.visualization.DataTable();
+    
+    dataTable.addColumn('string', 'Industry');    
+    dataTable.addColumn('number', 'None');    
+    dataTable.addColumn('number', 'Minimum');    
+    dataTable.addColumn('number', 'College');    
+    dataTable.addColumn('number', 'Higher'); 
+
+
+    dataTable.addRow(['Agriculture', getRandomInt(0, 500), getRandomInt(0, 1000), getRandomInt(0, 2000),  getRandomInt(0, 100)]);
+    dataTable.addRow(['Manufacturing', getRandomInt(0, 500), getRandomInt(0, 1000), getRandomInt(0, 2000),  getRandomInt(0, 100)]);
+    dataTable.addRow(['Business', getRandomInt(0, 500), getRandomInt(0, 1000), getRandomInt(0, 2000),  getRandomInt(0, 100)]);
+    dataTable.addRow(['Professional', getRandomInt(0, 500), getRandomInt(0, 1000), getRandomInt(0, 2000),  getRandomInt(0, 100)]);
+    dataTable.addRow(['Public', getRandomInt(0, 500), getRandomInt(0, 1000), getRandomInt(0, 2000),  getRandomInt(0, 100)]);
+
+
+    let options = {
+      isStacked: true,
+      backgroundColor: { fill:'transparent' },
+      hAxis: {
+        title: 'Education Level',
+        minValue: 0,
+      },
+      vAxis: {
+        title: 'Industry'
+      },            
+      animation: {
+        "startup": true,
+        duration: 2000,
+        easing: 'out'
+      },
+      height: 400,
+      series: {
+        0:{color:'#353052'},
+        1:{color:'#6e679e'},
+        2:{color:'#dbd8ed'},
+        3:{color:'gray'}
+      }
+    };
+
+    var chart = new google.visualization.BarChart(document.getElementById('piechart_3d'));
+
+    chart.draw(dataTable, options);   
+  });  
+
+}
+
+
+
+function plotVerticalBars(year) {
+
+  google.charts.load('current', {packages: ['corechart', 'bar']});
+  google.charts.setOnLoadCallback(() => {
+
+    let dataTable = new google.visualization.DataTable();
+    
+    dataTable.addColumn('string', 'Industry');
+    dataTable.addColumn('number', 'Employment');
+    dataTable.addColumn('number', 'Un');
+
+    dataTable.addRow(['New York City, NY', getRandomInt(0, 100), getRandomInt(0, 1000)]);
+    dataTable.addRow(['Los Angeles, CA', getRandomInt(0, 100), getRandomInt(0, 1000)]);
+    dataTable.addRow(['Chicago, IL', getRandomInt(0, 100), getRandomInt(0, 1000)]);
+    dataTable.addRow(['Houston, TX', getRandomInt(0, 100), getRandomInt(0, 1000)]);
+    dataTable.addRow(['Philadelphia, PA', getRandomInt(0, 100), getRandomInt(0, 1000)]);
+
+  
+    let options = {
+      title: 'Population of Largest U.S. Cities',
+      //chartArea: {width: '50%'},
+      isStacked: true,
+      backgroundColor: { fill:'transparent' },
+      hAxis: {
+        title: 'Total Population',
+        minValue: 0,
+      },
+      vAxis: {
+        title: 'City'
+      },
+      animation: {
+        "startup": true,
+        duration: 2000,
+        easing: 'out'
+      },        
+    };
+    var chart = new google.visualization.BarChart(document.getElementById('bars_chart'));
+    chart.draw(dataTable, options);
+
+
+  });
 
 }
 
@@ -241,7 +391,7 @@ function createFilters(period) {
     value: 0,
     min: 0,
     max: 100,
-    title: "Education",
+    title: "Unemployment",
     levelColorsGradient: true,
     counter: true,
     gaugeWidthScale: 0.7,
@@ -254,7 +404,7 @@ function createFilters(period) {
 
   $(".js-range-slider").ionRangeSlider({
     skin: 'round',
-    type: 'double',
+    type: 'single',
     values: period,
     grid: true,
     grid_snap: true,
@@ -277,26 +427,18 @@ function createFilters(period) {
   });  
 }
 
-function init() {
+function refresh() {
     // loadData
 
     toggleSpinner(1500);
-      // plot graphs
         createFilters([1900, 1910, 1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000, 2005, 2010, 2015, 2017]);      
 
 
         plotGeoMap();
-        plotBubbleChart();
+        plotBubbleChart();        
+        plotComboChart();
         plotPie();
-        plotBars();
     
     toggleSpinner(0);        
 
 }
-
-init();
-
-// resize
-// http://flopreynat.com/blog/make-google-charts-responsive.html
-// https://codepen.io/flopreynat/pen/BfLkA
-// https://stackoverflow.com/questions/33604755/google-charts-how-to-auto-re-size-inside-panel

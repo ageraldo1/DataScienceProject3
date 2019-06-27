@@ -43,3 +43,8 @@
     transform: rotate(0deg);
   }
 }
+
+.modal_chart {
+  height: 400px;
+  width: 800px;
+}
