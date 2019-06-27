@@ -23,26 +23,25 @@ def index():
 @app.route("/timespan")
 def years():
     # connect to the db
-    conn = sqlite3.connect("./data/alternate_data.db")
+    conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
-    cur.execute("SELECT DISTINCT year FROM alternate_data ORDER BY year")
+    cur.execute("SELECT DISTINCT Year FROM Employ ORDER BY year")
     results=cur.fetchall()
     year_list=[]
     for result in results:
         year_list.append(result[0])
     return jsonify(year_list)
 
-@app.route("/states")
-def states_list():
-    # connect to the db
-    conn = sqlite3.connect("./data/alternate_data.db")
+@app.route("/bubble_data")
+def bubble_list():
+    conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
-    cur.execute("SELECT DISTINCT st FROM alternate_data ORDER BY year")
+    cur.execute("SELECT Income.Year, Income.Ind, Age.Age, Income.obs, Income.Income FROM Income , Age WHERE Age.ind=Income.ind AND Age.Year=Income.Year;")
     results=cur.fetchall()
-    states_list=[]
+    bubble_group=[]
     for result in results:
-        states_list.append(result[0])
-    return jsonify(states_list)
+        bubble_group.append(dict(year=result[0],industry_sid=result[1],median_age=result[2],jobs_number=result[3],median_income=result[4]))
+    return jsonify(bubble_group)
 
 @app.route("/states_group")
 def states_group():
