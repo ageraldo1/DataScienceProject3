@@ -183,5 +183,31 @@ def race_pie(year,industry_sid):
         }
     return jsonify(race_dict)
 
+inflation_dict= {
+      "1950" : 10.35, 
+      "1960" : 8.41, 
+      "1970" : 6.42, 
+      "1980" : 3.02 , 
+      "1990" : 1.90, 
+      "2000" : 1.45, 
+      "2010" : 1.16, 
+      "2015" : 1.04, 
+      "2017" : 1.00
+}
+
+def inflation_adjust(year, dollars):
+    return float(dollars)*inflation_dict[str(year)]
+
+@app.route("/bubble_inflation/<year>")
+def bubble_inflation(year):
+    conn = sqlite3.connect("./data/Project3.db")
+    cur = conn.cursor()
+    cur.execute(f"SELECT Income.Year, Income.Ind, Age.Age, Income.obs, Income.Income FROM Income , Age WHERE Age.ind=Income.ind AND Age.Year=Income.Year AND Income.Year={year};")
+    results=cur.fetchall()
+    bubble_group=[]
+    for result in results:
+        bubble_group.append(dict(ndustry_sid=result[1],median_age=int(result[2]),jobs_number=int(result[3]),median_income=inflation_adjust(year,result[4])))
+    return jsonify(bubble_group)
+
 if __name__ == "__main__":
     app.run(debug=True)
