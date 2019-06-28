@@ -43,14 +43,13 @@ def industry_key():
                     "5": "Public Administration"}
     return jsonify(industry_key)
 
-# This API returns the dictionary name for the educaiton key
+# This Dictionary holds the educaiton values
 education_key={ "0": "N/A or No Schooling",
                 "1": "Elementary, Middle, and/or High School",
                 "2": "College",
                 "3": "Graduate Degree"}
 
-# This API returns the dictionary name for the race key
-
+# This Dictionary holds the race values
 race_key={  "1": "White",
             "2": "Black/African American",
             "3": "American Indian or Alaska Native",
@@ -59,8 +58,7 @@ race_key={  "1": "White",
             "6": "Two or more races",
             }
 
-
-# This API returns the dictionary name for the sex key
+# This dictionary holds the sex values
 sex_key={ "M": "Male",
             "F": "Female"}
    
@@ -89,7 +87,7 @@ def bar_list(year):
         bar_group.append(dict(industry_sid=result[1],number_employed=int(result[2]),education_level=education_key[result[3]]))
     return jsonify(bar_group)
 
-
+# This dictionary holds the state values
 state_dict={ "1":"Alabama",
             "2":"Alaska",
             "4":"Arizona",
@@ -141,7 +139,7 @@ state_dict={ "1":"Alabama",
             "55":"Wisconsin",
             "56":"Wyoming" }
 
-
+# API for the data from the chloropleth
 @app.route("/states_chlorpleth/<year>/<industry_sid>")
 def states_map(year, industry_sid):
     conn = sqlite3.connect("./data/Project3.db")
@@ -154,7 +152,7 @@ def states_map(year, industry_sid):
     return jsonify(states_group)
 
 
-
+# API for the pie graph for gender
 @app.route("/gender_pie/<year>/<industry_sid>")
 def gender_pie(year,industry_sid):
     conn = sqlite3.connect("./data/Project3.db")
@@ -164,7 +162,7 @@ def gender_pie(year,industry_sid):
     gender_group={ sex_key[results[0][1]] : results[0][0],sex_key[results[1][1]] : results[1][0]}
     return jsonify(gender_group)
 
-## Race Graph
+## API for the pie graph for ethnicity
 @app.route("/race_pie/<year>/<industry_sid>")
 def race_pie(year,industry_sid):
     conn = sqlite3.connect("./data/Project3.db")
