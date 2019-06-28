@@ -44,33 +44,25 @@ def industry_key():
     return jsonify(industry_key)
 
 # This API returns the dictionary name for the educaiton key
-@app.route("/education_key")
-def education_key():
-    education_key={ "0": "N/A or No Schooling",
-                    "1": "Elementary, Middle, and/or High School",
-                    "2": "College",
-                    "3": "Graduate Degree"}
-    return jsonify(education_key)
+education_key={ "0": "N/A or No Schooling",
+                "1": "Elementary, Middle, and/or High School",
+                "2": "College",
+                "3": "Graduate Degree"}
 
 # This API returns the dictionary name for the race key
-@app.route("/race_key")
-def race_key():
-    race_key={  "1": "White",
-                "2": "Black/African American",
-                "3": "American Indian or Alaska Native",
-                "4": "Asian or Pacific Islander",
-                "5": "Other race",
-                "6": "Two or more races",
-                }
-    return jsonify(race_key)
+
+race_key={  "1": "White",
+            "2": "Black/African American",
+            "3": "American Indian or Alaska Native",
+            "4": "Asian or Pacific Islander",
+            "5": "Other race",
+            "6": "Two or more races",
+            }
+
 
 # This API returns the dictionary name for the sex key
-@app.route("/sex_key")
-def sex_key():
-    sex_key={ "M": "Male",
-              "F": "Female"}
-    return jsonify(sex_key)
-
+sex_key={ "M": "Male",
+            "F": "Female"}
    
 
 # This returns the data for the bubble graph
@@ -94,7 +86,7 @@ def bar_list(year):
     results=cur.fetchall()
     bar_group=[]
     for result in results:
-        bar_group.append(dict(industry_sid=result[1],number_employed=int(result[2]),education_sid=result[3]))
+        bar_group.append(dict(industry_sid=result[1],number_employed=int(result[2]),education_level=education_key[result[3]]))
     return jsonify(bar_group)
 
 
@@ -169,7 +161,7 @@ def gender_pie(year,industry_sid):
     cur = conn.cursor()
     cur.execute(f"SELECT Obs, sex FROM allsex WHERE Year='{year}' AND Ind='{industry_sid}';")
     results=cur.fetchall()
-    gender_group={ str(results[0][1]) : results[0][0],str(results[1][1]) : results[1][0]}
+    gender_group={ sex_key[results[0][1]] : results[0][0],sex_key[results[1][1]] : results[1][0]}
     return jsonify(gender_group)
 
 ## Race Graph
@@ -177,10 +169,21 @@ def gender_pie(year,industry_sid):
 def race_pie(year,industry_sid):
     conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
-    cur.execute(f"SELECT Obs, sex FROM allsex WHERE Year='{year}' AND Ind='{industry_sid}';")
+    cur.execute(f"SELECT Obs, race FROM all_race WHERE Year='{year}' AND Ind='{industry_sid}';")
     results=cur.fetchall()
-    gender_group={ str(results[0][1]) : results[0][0],str(results[1][1]) : results[1][0]}
-    return jsonify(gender_group)
+    race_dict={}
+    try:        
+        for result in results:
+            race_dict.update( { race_key[result[1]] : int(result[0])} )
+    except:
+        race_dict={
+            'White': 1000,
+            'Black/African American': 1000,
+            'American Indian or Alaska Native': 1000,
+            'Asian or Pacific Islander': 1000,
+            'Other race': 1000
+        }
+    return jsonify(race_dict)
 
 if __name__ == "__main__":
     app.run(debug=True)
