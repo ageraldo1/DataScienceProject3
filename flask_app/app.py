@@ -172,10 +172,10 @@ def race_pie(year,industry_sid):
     cur.execute(f"SELECT Obs, race FROM all_race WHERE Year='{year}' AND Ind='{industry_sid}';")
     results=cur.fetchall()
     race_dict={}
-    try:        
-        for result in results:
-            race_dict.update( { race_key[result[1]] : int(result[0])} )
-    except:
+    for result in results:
+        race_dict.update( { race_key[result[1]] : int(result[0])} )
+    # If there is no race data for the year, return this dictionary
+    if not results:
         race_dict={
             'White': 1000,
             'Black/African American': 1000,
