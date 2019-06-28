@@ -20,6 +20,7 @@ def index():
     """Return the homepage."""
     return render_template("index.html")
 
+## Select all the years in the project
 @app.route("/timespan")
 def years():
     # connect to the db
@@ -32,169 +33,154 @@ def years():
         year_list.append(result[0])
     return jsonify(year_list)
 
-@app.route("/bubble_data")
-def bubble_list():
+# This API returns the dictionary name for the industry key
+@app.route("/industry_key")
+def industry_key():
+    industry_key={ "1": "Agriculture",
+                    "2": "Manufacturing",
+                    "3": "Business & Repair Services",
+                    "4" : "Professional & Related Services",
+                    "5": "Public Administration"}
+    return jsonify(industry_key)
+
+# This API returns the dictionary name for the educaiton key
+@app.route("/education_key")
+def education_key():
+    education_key={ "0": "N/A or No Schooling",
+                    "1": "Elementary, Middle, and/or High School",
+                    "2": "College",
+                    "3": "Graduate Degree"}
+    return jsonify(education_key)
+
+# This API returns the dictionary name for the race key
+@app.route("/race_key")
+def race_key():
+    race_key={  "1": "White",
+                "2": "Black/African American",
+                "3": "American Indian or Alaska Native",
+                "4": "Asian or Pacific Islander",
+                "5": "Other race",
+                "6": "Two or more races",
+                }
+    return jsonify(race_key)
+
+# This API returns the dictionary name for the sex key
+@app.route("/sex_key")
+def sex_key():
+    sex_key={ "M": "Male",
+              "F": "Female"}
+    return jsonify(sex_key)
+
+   
+
+# This returns the data for the bubble graph
+@app.route("/bubble_graph/<year>")
+def bubble_list(year):
     conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
-    cur.execute("SELECT Income.Year, Income.Ind, Age.Age, Income.obs, Income.Income FROM Income , Age WHERE Age.ind=Income.ind AND Age.Year=Income.Year;")
+    cur.execute(f"SELECT Income.Year, Income.Ind, Age.Age, Income.obs, Income.Income FROM Income , Age WHERE Age.ind=Income.ind AND Age.Year=Income.Year AND Income.Year={year};")
     results=cur.fetchall()
     bubble_group=[]
     for result in results:
-        bubble_group.append(dict(year=result[0],industry_sid=result[1],median_age=result[2],jobs_number=result[3],median_income=result[4]))
+        bubble_group.append(dict(ndustry_sid=result[1],median_age=int(result[2]),jobs_number=int(result[3]),median_income=int(result[4])))
     return jsonify(bubble_group)
 
-@app.route("/states_group")
-def states_group():
-    conn = sqlite3.connect("./data/alternate_data.db")
+# This returns the data for the bar graph
+@app.route("/bar_graph/<year>")
+def bar_list(year):
+    conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
-    cur.execute("SELECT st, occ_title, year ,tot_emp, h_median FROM alternate_data GROUP BY st;")
+    cur.execute(f"SELECT Year, Ind, Obs, Education FROM Education WHERE Year={year};")
+    results=cur.fetchall()
+    bar_group=[]
+    for result in results:
+        bar_group.append(dict(industry_sid=result[1],number_employed=int(result[2]),education_sid=result[3]))
+    return jsonify(bar_group)
+
+
+state_dict={ "1":"Alabama",
+            "2":"Alaska",
+            "4":"Arizona",
+            "5":"Arkansas",
+            "6":"California",
+            "8":"Colorado",
+            "9":"Connecticut",
+            "10":"Delaware",
+            "12":"Florida",
+            "13":"Georgia",
+            "15":"Hawaii",
+            "16":"Idaho",
+            "17":"Illinois",
+            "18":"Indiana",
+            "19":"Iowa",
+            "20":"Kansas",
+            "21":"Kentucky",
+            "22":"Louisiana",
+            "23":"Maine",
+            "24":"Maryland",
+            "25":"Massachusetts",
+            "26":"Michigan",
+            "27":"Minnesota",
+            "28":"Mississippi",
+            "29":"Missouri",
+            "30":"Montana",
+            "31":"Nebraska",
+            "32":"Nevada",
+            "33":"New Hampshire",
+            "34":"New Jersey",
+            "35":"New Mexico",
+            "36":"New York",
+            "37":"North Carolina",
+            "38":"North Dakota",
+            "39":"Ohio",
+            "40":"Oklahoma",
+            "41":"Oregon",
+            "42":"Pennsylvania",
+            "44":"Rhode Island",
+            "45":"South Carolina",
+            "46":"South Dakota",
+            "47":"Tennessee",
+            "48":"Texas",
+            "49":"Utah",
+            "50":"Vermont",
+            "51":"Virginia",
+            "53":"Washington",
+            "54":"West Virginia",
+            "55":"Wisconsin",
+            "56":"Wyoming" }
+
+
+@app.route("/states_chlorpleth/<year>/<industry_sid>")
+def states_map(year, industry_sid):
+    conn = sqlite3.connect("./data/Project3.db")
+    cur = conn.cursor()
+    cur.execute(f"SELECT obs, state FROM XState WHERE year='{year}' AND industry='{industry_sid}';")
     results=cur.fetchall()
     states_group=[]
     for result in results:
-        states_group.append(dict(state=result[0],industry=result[1],year=result[2],number_employed=result[3],median_hourly=result[4]))
+        states_group.append(dict(jobs=result[0],state=state_dict[result[1]]))
     return jsonify(states_group)
 
-@app.route("/time_series")
-def time_series():
-    conn = sqlite3.connect("./data/alternate_data.db")
+
+
+@app.route("/gender_pie/<year>/<industry_sid>")
+def gender_pie(year,industry_sid):
+    conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
-    cur.execute("SELECT tot_emp, year, st, occ_title, h_median FROM alternate_data;")
+    cur.execute(f"SELECT Obs, sex FROM allsex WHERE Year='{year}' AND Ind='{industry_sid}';")
     results=cur.fetchall()
-    time_group=[]
-    for result in results:
-        time_group.append(dict(number_employed=result[0],year=result[1],state=result[2],industry=result[3], median_hourly=result[4]))
-    return jsonify(time_group)
+    gender_group={ str(results[0][1]) : results[0][0],str(results[1][1]) : results[1][0]}
+    return jsonify(gender_group)
 
-
-@app.route("/time_range/<start>/<end>")
-def time_ranged_data(start, end):
-    conn = sqlite3.connect("./data/alternate_data.db")
+## Race Graph
+@app.route("/race_pie/<year>/<industry_sid>")
+def race_pie(year,industry_sid):
+    conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
-    cur.execute(f"SELECT tot_emp, year, st, occ_title, h_median FROM alternate_data WHERE year >= {start} and year <= {end} ;")
+    cur.execute(f"SELECT Obs, sex FROM allsex WHERE Year='{year}' AND Ind='{industry_sid}';")
     results=cur.fetchall()
-    range_group=[]
-    for result in results:
-        range_group.append(dict(jobs=result[0],year=result[1],state=result[2],industry=result[3], median_hourly=result[4]))
-    return jsonify(range_group)
-
-# @app.route("/api/v1.0/precipitation/")
-# def precipitation():
-#     # connect to the db
-#     conn = sqlite3.connect("../Resources/hawaii.sqlite")
-#     cur = conn.cursor()
-#     # select date and precipitation from the db
-#     cur.execute("SELECT date, prcp FROM measurement")
-#     result= cur.fetchall()
-#     # create and add results into the dictionary
-#     precip_dict= {}
-#     {precip_dict.setdefault(key, []).append(precip) for key, precip in result}
-#     return jsonify(precip_dict)
-
-
-
-# @app.route("/api/v1.0/tob/")
-# def tob():
-#     conn = sqlite3.connect("../Resources/hawaii.sqlite")
-#     cur = conn.cursor()
-
-#     #Find the highest date in the DB
-#     cur.execute("SELECT MAX(date) FROM measurement")
-#     max_date=cur.fetchall()
-#     #Convert to a string
-#     date_str=max_date[0][0]
-#     #Convert to a date format
-#     date_dt=dt.strptime(date_str,'%Y-%m-%d')
-#     #Subtract a year to find the date for the query
-#     new_date=date_dt.replace(date_dt.year-1)
-#     #convert back to string
-#     new_str=new_date.strftime('%Y-%m-%d')
-#     #query for the data
-#     cur.execute(f"SELECT date, tobs FROM measurement WHERE date > '{new_str}'")
-#     result= cur.fetchall()
-#     tobs_dict= {}
-#     {tobs_dict.setdefault(key, []).append(tobs) for key, tobs in result}
-#     return(jsonify(tobs_dict))
-
-# @app.route("/api/v1.0/<start>")
-# def temp_past(start):
-#     try:
-#         ##This date conversion verifies that the url is properly formatted
-#         min_date=dt.strptime(start,'%Y-%m-%d')
-#         ## Connect to db
-#         conn = sqlite3.connect("../Resources/hawaii.sqlite")
-#         cur = conn.cursor()
-
-#         ## find min and max date on db
-#         cur.execute("SELECT MIN(date),MAX(date) FROM measurement")
-#         db_result=cur.fetchall()
-#         #Convert to a string
-#         min_str=db_result[0][0]
-#         max_str=db_result[0][1]
-
-#         # Check to see if the date ranges are out of bounds
-#         if start < min_str:
-#             results={"error": f"{start} is less than the earliest database date of {min_str}"}
-#         elif start > max_str:
-#             results={"error": f"{start} is greater than the latest database date of {max_str}"}
-#         else:
-#             #select the aggretate temperatures of the dates greater than start date
-#             cur.execute(f"SELECT MIN(tobs),MAX(tobs),AVG(tobs) FROM measurement WHERE date >= {start}")
-#             temp_results=cur.fetchall()
-#             #format the results for the average of those dates
-#             results={"start":start,
-#                      "end":max_str,
-#                      "TMIN":temp_results[0][0],
-#                      "TMAX":temp_results[0][1],
-#                      "TAVG":"{0:.1f}".format(temp_results[0][2])}
-#         return jsonify(results),200
-#     except: 
-#         #return an error if there's a date typo
-#         results={"error": f"{start} is not date format of YYYY-MM-DD or an API path"}
-#         return jsonify(results),404
-    
-# @app.route("/api/v1.0/<start>/<end>")
-# def temp_range(start,end):
-#     try:
-#         min_date=dt.strptime(start,'%Y-%m-%d')
-#         max_date=dt.strptime(end,'%Y-%m-%d')
-
-#         ## Connect to db
-#         conn = sqlite3.connect("../Resources/hawaii.sqlite")
-#         cur = conn.cursor()
-
-#         ## find min and max date on db
-#         cur.execute("SELECT MIN(date),MAX(date) FROM measurement")
-#         db_result=cur.fetchall()
-#         #Convert to a string
-#         min_str=db_result[0][0]
-#         max_str=db_result[0][1]
-
-#         # For date error handling, I have 3 categories, if the start is earlier than the 
-#         # first db date, if the end is greater than the last db date, and if the start is 
-#         # greater than the end.
-#         if start > end:
-#             results={"error":f"Start date {start} is greater than end date {end}."}
-#         elif start < min_str:
-#             results={"error": f"{start} is less than the earliest database date of {min_str}"}
-#         elif end > max_str:
-#             results={"error": f"{end} is greater than the latest database date of {max_str}"}
-                
-#         else:
-#             # find min max and rage of temp for those dates
-#             cur.execute(f"SELECT MIN(tobs),MAX(tobs),AVG(tobs) FROM measurement WHERE date >= '{start}' AND date <= '{end}' AND tobs IS NOT NULL")
-#             temp_results=cur.fetchall()
-#             # return the results
-#             results={"start":start,
-#                      "end":end,
-#                      "TMIN":temp_results[0][0],
-#                      "TMAX":temp_results[0][1],
-#                      "TAVG":"{0:.1f}".format(temp_results[0][2])
-#                     }
-#         return jsonify(results),200
-#     except: 
-#         #return an error if there's a date typo
-#         results={"error": f"{start} is not date format of YYYY-MM-DD or an API path"}
-#         return jsonify(results),404
+    gender_group={ str(results[0][1]) : results[0][0],str(results[1][1]) : results[1][0]}
+    return jsonify(gender_group)
 
 if __name__ == "__main__":
     app.run(debug=True)
