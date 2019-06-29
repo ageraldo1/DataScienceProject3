@@ -207,6 +207,7 @@ def race_pie(year,industry_sid):
         }
     return jsonify(race_dict)
 
+# This dictionary is made from using data on https://westegg.com/inflation/infl.cgi
 inflation_dict= {
       "1950" : 10.35, 
       "1960" : 8.41, 
@@ -219,9 +220,11 @@ inflation_dict= {
       "2017" : 1.00
 }
 
+# This funmction calculates 2017 inflaiton adjusted dollars using the dictionary.
 def inflation_adjust(year, dollars):
     return float(dollars)*inflation_dict[str(year)]
 
+# This function brings the inflation adjusted dollars into the bubble graph
 @app.route("/bubble_graph/<year>")
 def bubble_inflation(year):
     conn = sqlite3.connect("./data/Project3.db")
@@ -232,6 +235,32 @@ def bubble_inflation(year):
     for result in results:
         bubble_group.append(dict(industry=industry_key[result[1]],median_age=int(result[2]),jobs_number=int(result[3]),median_income=inflation_adjust(year,result[4])))
     return jsonify(bubble_group)
+
+# Returns the income KPI adjusted for inflation
+@app.route("/income_kpi/<year>")
+def income_kpi(year):
+    conn = sqlite3.connect("./data/Project3.db")
+    cur = conn.cursor()
+    cur.execute(f"SELECT income FROM Year_income WHERE Year='{year}';")
+    results=cur.fetchall()
+    income=float(results[0][0])*inflation_dict[str(year)]
+    return jsonify(income)
+
+@app.route("/employment_kpi/<year>")
+def employment_kpi(year):
+    conn = sqlite3.connect("./data/Project3.db")
+    cur = conn.cursor()
+    cur.execute(f"SELECT obs FROM Year_employ WHERE Year='{year}' AND employ=1;")
+    results=cur.fetchall()
+    return jsonify(results[0][0])
+
+@app.route("/unemployment_kpi/<year>")
+def unemployment_kpi(year):
+    conn = sqlite3.connect("./data/Project3.db")
+    cur = conn.cursor()
+    cur.execute(f"SELECT obs FROM Year_employ WHERE Year='{year}' AND employ=2;")
+    results=cur.fetchall()
+    return jsonify(results[0][0])
 
 if __name__ == "__main__":
     app.run(debug=True)
