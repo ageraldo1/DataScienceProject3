@@ -55,7 +55,7 @@ function refresh() {
   
             })
             .catch(err => console.log(err));    
-            
+
         } else {
           plotView1(sliderYear, 'view1_plot', defaultDimensions);     
           plotView2(sliderYear, document.querySelector('#selectIndustry').selectedIndex, 'view2_plot', defaultDimensions);
@@ -261,13 +261,12 @@ function plotView3(year, container, dimensions) {
               values.push(Number(item.number_employed));
             }); 
             
-            //dataTable.addRow([industry, (...values));
-            console.log(industry, values);
-            dataTable.addRow([industry, values[0], values[1], values[2], values[3]]);
+            dataTable.addRow([industry.industry, values[0], values[1], values[2], values[3]]);
           });
 
           let options = {
             isStacked: true,
+            fontSize:12,
             backgroundColor: { fill:'transparent' },
             hAxis: {
               title: 'Education Level',
@@ -278,7 +277,7 @@ function plotView3(year, container, dimensions) {
             },            
             animation: defaultAnimation,
             height:dimensions.height,
-            width:dimensions.width,        
+            width:dimensions.width,  
             series: {
               0:{color:'#353052'},
               1:{color:'#6e679e'},
@@ -289,8 +288,7 @@ function plotView3(year, container, dimensions) {
       
           var chart = new google.visualization.BarChart(document.getElementById(container));
     
-          chart.draw(dataTable, options); 
-    
+          chart.draw(dataTable, options);     
 
         })
         .catch(err => console.log(err));
