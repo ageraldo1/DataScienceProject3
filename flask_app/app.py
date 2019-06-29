@@ -45,6 +45,12 @@ def industry_key():
                     "5": "Public Administration"}
     return jsonify(industry_key)
 
+industry_key={ "1": "Agriculture",
+                "2": "Manufacturing",
+                "3": "Business & Repair Services",
+                "4" : "Professional & Related Services",
+                "5": "Public Administration"}
+
 # This Dictionary holds the educaiton values
 education_key={ "0": "N/A or No Schooling",
                 "1": "Elementary, Middle, and/or High School",
@@ -74,7 +80,7 @@ def bubble_list(year):
     results=cur.fetchall()
     bubble_group=[]
     for result in results:
-        bubble_group.append(dict(ndustry_sid=result[1],median_age=int(result[2]),jobs_number=int(result[3]),median_income=int(result[4])))
+        bubble_group.append(dict(industry=industry_key[result[1]],median_age=int(result[2]),jobs_number=int(result[3]),median_income=int(result[4])))
     return jsonify(bubble_group)
 
 # This returns the data for the bar graph
@@ -208,7 +214,7 @@ def bubble_inflation(year):
     results=cur.fetchall()
     bubble_group=[]
     for result in results:
-        bubble_group.append(dict(ndustry_sid=result[1],median_age=int(result[2]),jobs_number=int(result[3]),median_income=inflation_adjust(year,result[4])))
+        bubble_group.append(dict(industry=industry_key[result[1]],median_age=int(result[2]),jobs_number=int(result[3]),median_income=inflation_adjust(year,result[4])))
     return jsonify(bubble_group)
 
 if __name__ == "__main__":
