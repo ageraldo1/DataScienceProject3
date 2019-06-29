@@ -53,7 +53,7 @@ industry_key={ "1": "Agriculture",
 
 # This Dictionary holds the educaiton values
 education_key={ "0": "N/A",
-                "1": "High School",
+                "1": "Up to High School",
                 "2": "College",
                 "3": "Graduate"}
 
@@ -71,8 +71,8 @@ sex_key={ "M": "Male",
             "F": "Female"}
    
 
-# This returns the data for the bubble graph
-@app.route("/bubble_graph/<year>")
+# This returns the data for the bubble graph This is not inflation adjusted
+@app.route("/bubble_graph_no_inflation/<year>")
 def bubble_list(year):
     conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
@@ -190,7 +190,7 @@ def gender_pie(year,industry_sid):
 def race_pie(year,industry_sid):
     conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
-    cur.execute(f"SELECT Obs, race FROM all_race WHERE Year='{year}' AND Ind='{industry_sid}';")
+    cur.execute(f"SELECT Obs, race FROM allrace WHERE Year='{year}' AND Ind='{industry_sid}';")
     results=cur.fetchall()
     race_dict={}
     for result in results:
@@ -221,7 +221,7 @@ inflation_dict= {
 def inflation_adjust(year, dollars):
     return float(dollars)*inflation_dict[str(year)]
 
-@app.route("/bubble_inflation/<year>")
+@app.route("/bubble_graph/<year>")
 def bubble_inflation(year):
     conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
