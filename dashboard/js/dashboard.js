@@ -121,7 +121,7 @@ function createMainFilters(period) {
       keyboard: true,
       hide_min_max: true,
       onFinish: function (data) {
-  
+        
           gauge_income.refresh(getRandomInt(0, 100));
           gauge_employment.refresh(getRandomInt(0, 100));
           gauge_unemployment.refresh(getRandomInt(0, 100));
@@ -423,3 +423,7 @@ function plotSummary() {
 
     $("#summarymodal").modal('show'); 
 }
+
+$( document ).ready(() => {
+  refresh();
+})

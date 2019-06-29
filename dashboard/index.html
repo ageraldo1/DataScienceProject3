@@ -1,169 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css"/>
-    <link rel="stylesheet" href="css/styles.css">
-
-    <title>Skynet Data Science Dashboard</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Data Science Dashboard</title>
 </head>
-<body class="bg-light">     
+<body>
 
-       <!-- Loading screen component -->
-       <div class="loader" id="spinner" style='display:none'></div>
-
-        <ul class="nav navbar-light bg-info justify-content-end">           
-            <li class="nav-item justify-content-center">
-                <a class="nav-link text-white" href="javascript:refresh()">Refresh</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white" href="javascript:plotSummary()">Summary</a>
-            </li>
-
-
-            <li class="nav-item">
-                <a class="nav-link text-white" href="#" data-toggle="modal" data-target="#aboutModal">About</a>
-            </li>
-        </ul>
-
-    <!-- Main Container -->
-    <div class="container-fluid">       
-
-        <div class="row justify-content-center d-none" id="row1">
-            <div class="col-8">
-              <p class="font-weight-bold">Period</p>
-              <p>
-                <input type="text" class="js-range-slider" name="my_range" value="" />
-              </p>
-            </div>
-            <div class="col-1">
-              <div class="gauge" id="gauge_income"></div>
-            </div>
-
-            <div class="col-1">
-              <div class="gauge" id="gauge_employment"></div>            
-            </div>
-
-            <div class="col-1">
-              <div class="gauge" id="gauge_unemployment"></div>
-            </div>
+    <nav class="navbar navbar-expand-md navbar-dark bd-navbar">
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <span class="navbar-brand mb-0 h1">Data Science Bootcamp 2019</span>
+                </li>
+            </ul>
         </div>
+        <!--
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Load</a>
+                </li>
+            </ul>
+        </div>
+        -->
+    </nav>
 
-        <hr>
-        <div class="row d-none" id="row2">
-            <div class="col-6 text-center font-weight-bold" id="view1_title">Correlation between employment, income and age accross industries</div>
-            <div class="col-6 text-center font-weight-bold" id="view2_title">Employment Ratio across the US
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="selectIndustry">Industry</label>
+    <div class="container">            
+        <div class="jumbotron min-vh-100 text-center bg-transparent m-0 d-flex flex-column justify-content-center ">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card bg-light mb-3">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Note1</h5>
+                            <p class="card-text">Hi Shin's note1</p>
+                        </div>
                     </div>
-
-                    <select class="custom-select" id="selectIndustry">
-                    </select>
-                </div>              
+                </div>
+                <div class="col-6">
+                    <div class="card bg-light mb-3">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Note2</h5>
+                            <p class="card-text">Hi Shin's note2</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+            
+            <div class="row">
+                <div class="col-6">
+                    <div class="card bg-light mb-3">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Note3</h5>
+                            <p class="card-text">Hi Shin's note3</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card bg-light mb-3">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Note4</h5>
+                            <p class="card-text">Hi Shin's note3</p>
+                        </div>
+                    </div>
+                </div>                
+            </div>
 
-        <div class="row">
-          <div class="col-6" id="view1_plot"></div>
-          <div class="col-6" id="view2_plot"></div>
-        </div>
-        
-
-        <div class="row d-none" id="row3">
-            <div class="col-6 text-center font-weight-bold" id="view3_title">Education Level accross industries</div>
-            <div class="col-6 text-center font-weight-bold" id="view4_title">Jobs Distribution</div>
-        </div>            
-      
-
-        <div class="row">
-            <div class="col-6" id="view3_plot"></div>
-            <div class="col-3" id="view4_left"></div>
-            <div class="col-3" id="view4_right"></div>
-        </div>            
+            <br>
+            <a type="button" class="btn btn-secondary btn-lg btn-block" href="home.html">Start</a>
+            
+        </div>        
     </div>
 
-    <!-- Graph Modal -->
-    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" id="plotmodal">
-      <div class="modal-dialog modal-xl  modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="generic_plot_header"></h5>
-          </div>    
-          <div class="modal-body">
-              <div id="generic_plot_area"> </div>
-              <div class="container">
-                <div class="row">
-                  <div class="col-6"><div id="generic_plot_area_left"> </div></div>
-                  <div class="col-6"><div id="generic_plot_area_right"> </div></div>
-                </div> 
-              </div>
-          </div>    
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-      
-    </div>
 
-    <!-- About Modal -->
-    <div class="modal fade bd-example-modal-lg" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="aboutModalLabel">Group Members</h5>
-            </div>
-            <div class="modal-body">
-              <p class="text-center font-weight-normal">Alexandre Geraldo</p>
-              <p class="text-center font-weight-normal">Hi Shin Shim</p>
-              <p class="text-center font-weight-normal">Krishan Sharma</p>
-              <p class="text-center font-weight-normal">Navneet Gupta</p>
-              <p class="text-center font-weight-normal">Robert Schroer</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>    
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>  
 
-    <!-- Summary Modal -->
-    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" id="summarymodal">
-        <div class="modal-dialog modal-xl  modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title"> Summary</h5>
-            </div>    
-            <div class="modal-body">
-                <div id="summary_plot"> </div>
-            </div>    
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-    </div>  
-
-
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
-
-    <script src="js/raphael-2.1.4.min.js"></script>
-    <script src="js/justgage.js"></script>
-
-    <script src="js/config.js"></script>
-    <script src="js/index.js"></script>
-    <script src="js/dashboard.js"></script>
-
-</body>
+ </body>
 </html>
