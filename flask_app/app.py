@@ -1,6 +1,7 @@
 import sqlite3
 from flask import Flask, jsonify, render_template
 from datetime import datetime as dt
+from flask_cors import CORS 
 import pandas as pd
 import numpy as np
 # from flask_restplus import Resource, Api, Namespace
@@ -9,6 +10,7 @@ import numpy as np
 # Flask Setup
 #################################################
 app = Flask(__name__)
+CORS(app)
 
 #################################################
 # Flask Routes
