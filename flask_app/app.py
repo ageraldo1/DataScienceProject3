@@ -70,6 +70,8 @@ race_key={  "1": "White",
 sex_key={ "M": "Male",
             "F": "Female"}
    
+employ_key={"1": "employed",
+            "2":"unemployed"}
 
 # This returns the data for the bubble graph This is not inflation adjusted
 @app.route("/bubble_graph_no_inflation/<year>")
@@ -250,17 +252,15 @@ def income_kpi(year):
 def employment_kpi(year):
     conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
-    cur.execute(f"SELECT obs FROM Year_employ WHERE Year='{year}' AND employ=1;")
+    cur.execute(f"SELECT obs, employ FROM Year_employ WHERE Year='{year}';")
     results=cur.fetchall()
-    return jsonify(results[0][0])
-
-@app.route("/unemployment_kpi/<year>")
-def unemployment_kpi(year):
-    conn = sqlite3.connect("./data/Project3.db")
-    cur = conn.cursor()
-    cur.execute(f"SELECT obs FROM Year_employ WHERE Year='{year}' AND employ=2;")
-    results=cur.fetchall()
-    return jsonify(results[0][0])
+    raw_emp={}
+    for result in results:
+        dict_title=employ_key[result[1]]
+        raw_emp.update( { dict_title : float(result[0])} )
+    pct_results= { 'employed' : 100*raw_emp['employed'] /(raw_emp['employed']+raw_emp['unemployed']) ,
+                'unemployed' : 100*raw_emp['unemployed'] /(raw_emp['employed']+raw_emp['unemployed']) }
+    return jsonify(pct_results)
 
 if __name__ == "__main__":
     app.run(debug=True)
