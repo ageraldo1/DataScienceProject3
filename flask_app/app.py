@@ -40,22 +40,22 @@ def years():
 def industry_key():
     industry_key={ "1": "Agriculture",
                     "2": "Manufacturing",
-                    "3": "Business & Repair Services",
-                    "4" : "Professional & Related Services",
+                    "3": "Business Services",
+                    "4" : "Professional Services",
                     "5": "Public Administration"}
     return jsonify(industry_key)
 
 industry_key={ "1": "Agriculture",
                 "2": "Manufacturing",
-                "3": "Business & Repair Services",
-                "4" : "Professional & Related Services",
+                "3": "Business Services",
+                "4" : "Professional Services",
                 "5": "Public Administration"}
 
 # This Dictionary holds the educaiton values
-education_key={ "0": "N/A or No Schooling",
-                "1": "Elementary, Middle, and/or High School",
+education_key={ "0": "N/A",
+                "1": "High School",
                 "2": "College",
-                "3": "Graduate Degree"}
+                "3": "Graduate"}
 
 # This Dictionary holds the race values
 race_key={  "1": "White",
