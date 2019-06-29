@@ -45,17 +45,25 @@ function refresh() {
                   let row = document.querySelector(`#row${i}`);
                   row.classList.remove('d-none');
               }
+
+              plotView1(sliderYear, 'view1_plot', defaultDimensions);     
+              plotView2(sliderYear, document.querySelector('#selectIndustry').selectedIndex, 'view2_plot', defaultDimensions);
+              plotView3(sliderYear, 'view3_plot', defaultDimensions);     
+              plotView4(sliderYear, 'view4_left', 'view4_right', {height: 350, width: 350});      
   
               firstLoad = false;
   
             })
             .catch(err => console.log(err));    
+            
+        } else {
+          plotView1(sliderYear, 'view1_plot', defaultDimensions);     
+          plotView2(sliderYear, document.querySelector('#selectIndustry').selectedIndex, 'view2_plot', defaultDimensions);
+          plotView3(sliderYear, 'view3_plot', defaultDimensions);     
+          plotView4(sliderYear, 'view4_left', 'view4_right', {height: 350, width: 350});  
+
         }
 
-        plotView1(sliderYear, 'view1_plot', defaultDimensions);     
-        plotView2(sliderYear, document.querySelector('#selectIndustry').selectedIndex, 'view2_plot', defaultDimensions);
-        plotView3(sliderYear, 'view3_plot', defaultDimensions);     
-        plotView4(sliderYear, 'view4_left', 'view4_right', {height: 350, width: 350});
 
     toggleSpinner(0, true);
 }
