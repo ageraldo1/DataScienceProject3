@@ -100,7 +100,7 @@ def bar_list(year):
         ind_sid=row['industry']
         cur.execute(f"SELECT Obs, Education FROM Education WHERE Year={year} AND Ind='{ind_sid}';")
         results2=cur.fetchall()
-        bar_group.append(dict(industry=industry_key[result[0]],education=[{'education_level':education_key[results2[0][1]],
+        bar_group.append(dict(industry=industry_key[ind_sid],education=[{'education_level':education_key[results2[0][1]],
                                                                         'number_employed':results2[0][0]},
                                                                         {'education_level':education_key[results2[1][1]],
                                                                         'number_employed':results2[1][0]},
