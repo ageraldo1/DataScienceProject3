@@ -40,22 +40,22 @@ def years():
 def industry_key():
     industry_key={ "1": "Agriculture",
                     "2": "Manufacturing",
-                    "3": "Business & Repair Services",
-                    "4" : "Professional & Related Services",
+                    "3": "Business Services",
+                    "4" : "Professional Services",
                     "5": "Public Administration"}
     return jsonify(industry_key)
 
 industry_key={ "1": "Agriculture",
                 "2": "Manufacturing",
-                "3": "Business & Repair Services",
-                "4" : "Professional & Related Services",
+                "3": "Business Services",
+                "4" : "Professional Services",
                 "5": "Public Administration"}
 
 # This Dictionary holds the educaiton values
-education_key={ "0": "N/A or No Schooling",
-                "1": "Elementary, Middle, and/or High School",
+education_key={ "0": "N/A",
+                "1": "Up to High School",
                 "2": "College",
-                "3": "Graduate Degree"}
+                "3": "Graduate"}
 
 # This Dictionary holds the race values
 race_key={  "1": "White",
@@ -71,8 +71,8 @@ sex_key={ "M": "Male",
             "F": "Female"}
    
 
-# This returns the data for the bubble graph
-@app.route("/bubble_graph/<year>")
+# This returns the data for the bubble graph This is not inflation adjusted
+@app.route("/bubble_graph_no_inflation/<year>")
 def bubble_list(year):
     conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
@@ -100,7 +100,7 @@ def bar_list(year):
         ind_sid=row['industry']
         cur.execute(f"SELECT Obs, Education FROM Education WHERE Year={year} AND Ind='{ind_sid}';")
         results2=cur.fetchall()
-        bar_group.append(dict(industry=industry_key[result[0]],education=[{'education_level':education_key[results2[0][1]],
+        bar_group.append(dict(industry=industry_key[ind_sid],education=[{'education_level':education_key[results2[0][1]],
                                                                         'number_employed':results2[0][0]},
                                                                         {'education_level':education_key[results2[1][1]],
                                                                         'number_employed':results2[1][0]},
@@ -119,6 +119,7 @@ state_dict={ "1":"Alabama",
             "8":"Colorado",
             "9":"Connecticut",
             "10":"Delaware",
+            "11":"Washington DC",
             "12":"Florida",
             "13":"Georgia",
             "15":"Hawaii",
@@ -190,7 +191,7 @@ def gender_pie(year,industry_sid):
 def race_pie(year,industry_sid):
     conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
-    cur.execute(f"SELECT Obs, race FROM all_race WHERE Year='{year}' AND Ind='{industry_sid}';")
+    cur.execute(f"SELECT Obs, race FROM allrace WHERE Year='{year}' AND Ind='{industry_sid}';")
     results=cur.fetchall()
     race_dict={}
     for result in results:
@@ -221,7 +222,7 @@ inflation_dict= {
 def inflation_adjust(year, dollars):
     return float(dollars)*inflation_dict[str(year)]
 
-@app.route("/bubble_inflation/<year>")
+@app.route("/bubble_graph/<year>")
 def bubble_inflation(year):
     conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
