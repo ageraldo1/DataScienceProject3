@@ -88,11 +88,26 @@ def bubble_list(year):
 def bar_list(year):
     conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
-    cur.execute(f"SELECT Year, Ind, Obs, Education FROM Education WHERE Year={year};")
+    cur.execute(f"SELECT DISTINCT Ind FROM Education")
     results=cur.fetchall()
     bar_group=[]
+    industry_sid=[]
     for result in results:
-        bar_group.append(dict(industry_sid=result[1],number_employed=int(result[2]),education_level=education_key[result[3]]))
+        industry_sid.append(dict(industry=result[0]))
+
+    for row in industry_sid:
+        cur = conn.cursor()
+        ind_sid=row['industry']
+        cur.execute(f"SELECT Obs, Education FROM Education WHERE Year={year} AND Ind='{ind_sid}';")
+        results2=cur.fetchall()
+        bar_group.append(dict(industry=industry_key[result[0]],education=[{'education_level':education_key[results2[0][1]],
+                                                                        'number_employed':results2[0][0]},
+                                                                        {'education_level':education_key[results2[1][1]],
+                                                                        'number_employed':results2[1][0]},
+                                                                        {'education_level':education_key[results2[2][1]],
+                                                                        'number_employed':results2[2][0]},
+                                                                        {'education_level':education_key[results2[3][1]],
+                                                                        'number_employed':results2[3][0]}]))
     return jsonify(bar_group)
 
 # This dictionary holds the state values
