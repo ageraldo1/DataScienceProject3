@@ -123,10 +123,16 @@ function createMainFilters(period) {
       onFinish: function (data) {
         
           gauge_income.refresh(getRandomInt(0, 100));
-          gauge_employment.refresh(getRandomInt(0, 100));
-          gauge_unemployment.refresh(getRandomInt(0, 100));
 
-          sliderYear = data.from_value;          
+          sliderYear = data.from_value; 
+          
+          loadData(APP_BASEURL.concat(`/employment_kpi/${sliderYear}`))
+            .then(data => {
+              gauge_employment.refresh(data.employed);
+              gauge_unemployment.refresh(data.unemployed);    
+            })
+            .catch(err => console.log(err));
+
           refresh();        
       }
     }); 
