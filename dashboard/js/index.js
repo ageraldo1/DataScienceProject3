@@ -25,6 +25,8 @@ function toggleSpinner(time) {
 
 document.querySelector('#selectIndustry').addEventListener('change', (e) => {
     plotView2(sliderYear, e.target.selectedIndex, 'view2_plot', defaultDimensions);
+    plotView4(sliderYear, 'view4_left', 'view4_right', {height: 350, width: 350}, e.target.selectedIndex);
+    industrySelection =  e.target[e.target.selectedIndex].value;
 });
 
 document.querySelector('#view1_plot').addEventListener('dblclick', () => {
@@ -82,3 +84,4 @@ document.querySelector('#view4_right').addEventListener('dblclick', () => {
     plotView4(sliderYear, 'generic_plot_area_left', 'generic_plot_area_right', {height: 500, width: 500});
     $("#plotmodal").modal('show');    
 });
+
