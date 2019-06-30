@@ -3,7 +3,7 @@ let curve_chart = document.querySelector('#curve_chart');
 
 const modalDimensions = {
     height: 500,
-    width: 1000
+    width: 1100
 }
 
 function sleep (time) {
@@ -33,11 +33,12 @@ document.querySelector('#view1_plot').addEventListener('dblclick', () => {
     let modalTitle = document.querySelector('#generic_plot_header');
 
     modalTitle.textContent = `Correlation between employment, income and age accross industries (${sliderYear})`;
-
+    
     $('#generic_plot_area_left').empty();
     $('#generic_plot_area_right').empty();
-    plotView1(sliderYear, 'generic_plot_area', modalDimensions);
+
     $("#plotmodal").modal('show');    
+    setTimeout(() => plotView1(sliderYear, 'generic_plot_area', modalDimensions),500);    
 });
 
 
@@ -61,8 +62,8 @@ document.querySelector('#view3_plot').addEventListener('dblclick', () => {
     $('#generic_plot_area_left').empty();
     $('#generic_plot_area_right').empty();
 
-    plotView3(sliderYear, 'generic_plot_area', modalDimensions);
-    $("#plotmodal").modal('show');    
+    $("#plotmodal").modal('show');
+    setTimeout(() => plotView3(sliderYear, 'generic_plot_area', modalDimensions),500);        
 });
 
 document.querySelector('#view4_left').addEventListener('dblclick', () => {

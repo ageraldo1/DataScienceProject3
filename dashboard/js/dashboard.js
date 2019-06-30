@@ -4,13 +4,13 @@ var industrySelection = 1;
 
 const defaultAnimation = {
     'startup': true,
-    duration: 2000,
+    duration: 500,
     easing: 'out'    
 }
 
 const defaultDimensions = {
-    height: 350,
-    width: 700
+    height: 400,
+    width: 800
 }
 
 const loadData = async (endpoint) => {
@@ -121,17 +121,22 @@ function createMainFilters(period) {
       keyboard: true,
       hide_min_max: true,
       onFinish: function (data) {
-        
-          gauge_income.refresh(getRandomInt(0, 100));
 
-          sliderYear = data.from_value; 
-          
-          loadData(APP_BASEURL.concat(`/employment_kpi/${sliderYear}`))
-            .then(data => {
-              gauge_employment.refresh(data.employed);
-              gauge_unemployment.refresh(data.unemployed);    
-            })
-            .catch(err => console.log(err));
+        sliderYear = data.from_value;
+
+        loadData(APP_BASEURL.concat(`/income_pct_kpi/${sliderYear}`))
+          .then(data => {
+            gauge_income.refresh(data);;
+
+          })
+          .catch(err => console.log(err));
+
+        loadData(APP_BASEURL.concat(`/employment_kpi/${sliderYear}`))
+          .then(data => {
+            gauge_employment.refresh(data.employed);
+            gauge_unemployment.refresh(data.unemployed);
+          })
+          .catch(err => console.log(err));
 
           refresh();        
       }
@@ -178,8 +183,23 @@ function plotView1(year, container, dimensions) {
           });
 
           let options = {
-            hAxis: {title: 'Employment', bold: true},
-            vAxis: {title: 'Average Incoming'},
+            fontSize:12,
+            hAxis: {
+              title: 'Employment', 
+              bold: true,
+              format: 'decimal',
+              textStyle: {
+                fontSize: 10
+              },
+              textPosition : 'out'
+            },
+            vAxis: {
+              title: 'Average Incoming',
+              textStyle : {
+                fontSize: 10
+              },
+              textPosition : 'out'
+            },
             backgroundColor: { fill:'transparent' },
             colorAxis: {colors: ['#6F6EA0']},
             bubble: {
@@ -190,7 +210,7 @@ function plotView1(year, container, dimensions) {
             },
             animation: defaultAnimation,
             chartArea : {
-              width:'85%',
+              width:'80%',
               height:'70%'
             },
             height:dimensions.height,
