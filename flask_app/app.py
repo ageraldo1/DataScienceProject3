@@ -248,6 +248,7 @@ def income_kpi(year):
     income=float(results[0][0])*inflation_dict[str(year)]
     return jsonify(income)
 
+# finding annual employment rates of these categories
 @app.route("/employment_kpi/<year>")
 def employment_kpi(year):
     conn = sqlite3.connect("./data/Project3.db")
@@ -262,6 +263,7 @@ def employment_kpi(year):
                 'unemployed' : 100*raw_emp['unemployed'] /(raw_emp['employed']+raw_emp['unemployed']) }
     return jsonify(pct_results)
 
+#Bisecting the employment by state in case we want to slice it
 @app.route("/emp_by_ind_kpi/<year>/<industry_sid>")
 def emp_ind_kpi(year,industry_sid):
     conn = sqlite3.connect("./data/Project3.db")
@@ -275,6 +277,16 @@ def emp_ind_kpi(year,industry_sid):
     pct_results= { 'employed' : 100*raw_emp['employed'] /(raw_emp['employed']+raw_emp['unemployed']) ,
                 'unemployed' : 100*raw_emp['unemployed'] /(raw_emp['employed']+raw_emp['unemployed']) }
     return jsonify(pct_results)
+
+# This one uses a hard coded max from the inflation kpi to calculate a percentage
+@app.route("/income_pct_kpi/<year>")
+def income_pct_kpi(year):
+    conn = sqlite3.connect("./data/Project3.db")
+    cur = conn.cursor()
+    cur.execute(f"SELECT income FROM Year_income WHERE Year='{year}';")
+    results=cur.fetchall()
+    income=100*float(results[0][0])*inflation_dict[str(year)]/41600.0
+    return jsonify(income)
 
 
 if __name__ == "__main__":
