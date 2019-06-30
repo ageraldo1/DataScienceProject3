@@ -58,7 +58,7 @@ education_key={ "0": "N/A",
                 "3": "Graduate"}
 
 # This Dictionary holds the race values
-race_key={  "1": "White",
+race_key={  "1": "White or Caucasian",
             "2": "Black/African American",
             "3": "American Indian or Alaska Native",
             "4": "Asian or Pacific Islander",
@@ -200,7 +200,7 @@ def race_pie(year,industry_sid):
     # If there is no race data for the year, return this dictionary
     if not results:
         race_dict={
-            'White': 1000,
+            'White or Caucasian': 1000,
             'Black/African American': 1000,
             'American Indian or Alaska Native': 1000,
             'Asian or Pacific Islander': 1000,
