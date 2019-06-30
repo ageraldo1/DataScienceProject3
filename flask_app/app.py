@@ -283,9 +283,17 @@ def emp_ind_kpi(year,industry_sid):
 def income_pct_kpi(year):
     conn = sqlite3.connect("./data/Project3.db")
     cur = conn.cursor()
+    cur.execute(f"SELECT income , year FROM Year_income;")
+    results=cur.fetchall()
+    income_list=[]
+    for result in results:
+        income_list.append(float(result[0])*inflation_dict[result[1]])
+    income_list.sort(reverse=True)
+    conn = sqlite3.connect("./data/Project3.db")
+    cur = conn.cursor()
     cur.execute(f"SELECT income FROM Year_income WHERE Year='{year}';")
     results=cur.fetchall()
-    income=100*float(results[0][0])*inflation_dict[str(year)]/41600.0
+    income=100*float(results[0][0])*inflation_dict[str(year)]/income_list[0]
     return jsonify(income)
 
 
