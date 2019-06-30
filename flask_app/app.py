@@ -100,15 +100,16 @@ def bar_list(year):
     for row in industry_sid:
         cur = conn.cursor()
         ind_sid=row['industry']
-        cur.execute(f"SELECT Obs, Education FROM Education WHERE Year={year} AND Ind='{ind_sid}' AND Education!='0';")
+        cur.execute(f"SELECT Obs, Education FROM Education WHERE Year={year} AND Ind='{ind_sid}';")
         results2=cur.fetchall()
         bar_group.append(dict(industry=industry_key[ind_sid],education=[{'education_level':education_key[results2[0][1]],
-                                                                        'number_employed':results2[0][0]},
+                                                                        'number_employed':'0'},
                                                                         {'education_level':education_key[results2[1][1]],
                                                                         'number_employed':results2[1][0]},
                                                                         {'education_level':education_key[results2[2][1]],
                                                                         'number_employed':results2[2][0]},
-                                                                        ]))
+                                                                        {'education_level':education_key[results2[3][1]],
+                                                                        'number_employed':results2[3][0]}]))
     return jsonify(bar_group)
 
 # This dictionary holds the state values
