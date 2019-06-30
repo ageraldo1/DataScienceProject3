@@ -287,7 +287,8 @@ function plotView3(year, container, dimensions) {
               values.push(Number(item.number_employed));
             }); 
             
-            dataTable.addRow([industry.industry, values[0], values[1], values[2], values[3]]);
+            //dataTable.addRow([industry.industry, values[0], values[1], values[2], values[3]]);
+            dataTable.addRow([industry.industry, values[0], values[1], values[2]]);
           });
 
           let options = {
@@ -416,36 +417,41 @@ function plotSummary() {
 
     google.charts.load("current", {packages:["corechart"]});
     google.charts.setOnLoadCallback(() => {
-  
-      let dataTable = new google.visualization.DataTable();
 
-      let yearsRange = [1970, 1980, 1990, 2000, 2005, 2010, 2015, 2017];
+      loadData(APP_BASEURL.concat(`/summary`))
+        .then(data => {
+          let dataTable = new google.visualization.DataTable();
+          let yearsRange = new Set(data.map(item => item.year));
+          let industries = new Set(data.map(item => item.Industry));
+
+          dataTable.addColumn('string', 'Year');          
+          industries.forEach(industry => dataTable.addColumn('number', industry));
+
+          
+          
+          
+          //yearsRange.forEach(item => dataTable.addRow([String(item), getRandomInt(0, 1000), getRandomInt(0, 5000),getRandomInt(0, 5000), getRandomInt(0, 5000), getRandomInt(0, 5000) ]));
       
-      dataTable.addColumn('string', 'Year');    
-      dataTable.addColumn('number', 'Agriculture');    
-      dataTable.addColumn('number', 'Manufacturing');    
-      dataTable.addColumn('number', 'Business');    
-      dataTable.addColumn('number', 'Professional');    
-      dataTable.addColumn('number', 'Public');    
-  
-      yearsRange.forEach(item => dataTable.addRow([String(item), getRandomInt(0, 1000), getRandomInt(0, 5000),getRandomInt(0, 5000), getRandomInt(0, 5000), getRandomInt(0, 5000) ]));
-  
-        let options = {
-            title: 'Employment ratio changes over time',
-            vAxis: {title: 'Employment Ratio'},
-            backgroundColor: { fill: 'transparent' },
-            animation: defaultAnimation,
-            height: 500,
-            width: 1000,
-            isStacked: true,
-            connectSteps: false,
-            colors: ['#353052', '#6e679e', '#dbd8ed', 'gray']
-        };
-  
-      var chart = new google.visualization.SteppedAreaChart(document.getElementById('summary_plot'));
+            let options = {
+                title: 'Employment ratio changes over time',
+                vAxis: {title: 'Employment Ratio'},
+                backgroundColor: { fill: 'transparent' },
+                animation: defaultAnimation,
+                height: 500,
+                width: 1000,
+                isStacked: true,
+                connectSteps: false,
+                colors: ['#353052', '#6e679e', '#dbd8ed', 'gray']
+            };
+      
+          var chart = new google.visualization.SteppedAreaChart(document.getElementById('summary_plot'));
+    
+          chart.draw(dataTable, options);  
+        })
+        .catch(err => console.log(err));
 
-      chart.draw(dataTable, options);  
-    });   
+    });
+
 
     $("#summarymodal").modal('show'); 
 }
