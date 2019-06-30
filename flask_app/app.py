@@ -58,7 +58,7 @@ education_key={ "0": "N/A",
                 "3": "Graduate"}
 
 # This Dictionary holds the race values
-race_key={  "1": "White",
+race_key={  "1": "White or Caucasian",
             "2": "Black/African American",
             "3": "American Indian or Alaska Native",
             "4": "Asian or Pacific Islander",
