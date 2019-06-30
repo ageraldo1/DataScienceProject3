@@ -313,8 +313,8 @@ def summary():
                 raw_emp.update( { dict_title : float(result[0])} )
             try:
                 pct_results= { 'employment_rate' : 100*raw_emp['employed'] /(raw_emp['employed']+raw_emp['unemployed']) , 
-                        'year' : year, 
-                        "Industry" : industry_key[industry_sid]
+                        'year' : yr, 
+                        "Industry" : industry_key[industry_id]
                         }
             except:
                 pct_results= { 'employment_rate' : 100 , 
