@@ -32,7 +32,7 @@ document.querySelector('#selectIndustry').addEventListener('change', (e) => {
 document.querySelector('#view1_plot').addEventListener('dblclick', () => {
     let modalTitle = document.querySelector('#generic_plot_header');
 
-    modalTitle.textContent = `Correlation between employment, income and age accross industries (${sliderYear})`;
+    modalTitle.textContent = `Relationship between Employment, Income and Age across Industries (${sliderYear})`;
     
     $('#generic_plot_area_left').empty();
     $('#generic_plot_area_right').empty();
@@ -45,7 +45,7 @@ document.querySelector('#view1_plot').addEventListener('dblclick', () => {
 document.querySelector('#view2_plot').addEventListener('dblclick', () => {
     let modalTitle = document.querySelector('#generic_plot_header');
 
-    modalTitle.textContent = `Employment Ratio across the US - ${document.querySelector('#selectIndustry').options[document.querySelector('#selectIndustry').selectedIndex].text} (${sliderYear})`;
+    modalTitle.textContent = `Employment Level across the US by Industry - ${document.querySelector('#selectIndustry').options[document.querySelector('#selectIndustry').selectedIndex].text} (${sliderYear})`;
 
     $('#generic_plot_area_left').empty();
     $('#generic_plot_area_right').empty();
@@ -57,7 +57,7 @@ document.querySelector('#view2_plot').addEventListener('dblclick', () => {
 document.querySelector('#view3_plot').addEventListener('dblclick', () => {
     let modalTitle = document.querySelector('#generic_plot_header');
 
-    modalTitle.textContent = `Education Level accross industries (${sliderYear})`;
+    modalTitle.textContent = `Education Level across Industries (${sliderYear})`;
 
     $('#generic_plot_area_left').empty();
     $('#generic_plot_area_right').empty();
@@ -69,7 +69,7 @@ document.querySelector('#view3_plot').addEventListener('dblclick', () => {
 document.querySelector('#view4_left').addEventListener('dblclick', () => {
     let modalTitle = document.querySelector('#generic_plot_header');
 
-    modalTitle.textContent = `Gender Jobs Distribution (${sliderYear})`;
+    modalTitle.textContent = `Demographics (${sliderYear})`;
 
     $('#generic_plot_area').empty();
     plotView4(sliderYear, 'generic_plot_area_left', 'generic_plot_area_right', {height: 500, width: 500});
@@ -79,7 +79,7 @@ document.querySelector('#view4_left').addEventListener('dblclick', () => {
 document.querySelector('#view4_right').addEventListener('dblclick', () => {
     let modalTitle = document.querySelector('#generic_plot_header');
 
-    modalTitle.textContent = `Gender Jobs Distribution (${sliderYear})`;
+    modalTitle.textContent = `Demographics (${sliderYear})`;
 
     $('#generic_plot_area').empty();
     plotView4(sliderYear, 'generic_plot_area_left', 'generic_plot_area_right', {height: 500, width: 500});

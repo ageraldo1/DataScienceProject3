@@ -73,14 +73,15 @@ function createMainFilters(period) {
       id: "gauge_income",
       value: 0,
       min: 0,
-      max: 100,
+      max: 100000,
       title: "Income",
       levelColorsGradient: true,
       counter: true,
       gaugeWidthScale: 0.7,
       hideInnerShadow: true,
       formatNumber: true,
-      levelColors: ["#6F6EA0"]
+      levelColors: ["#6F6EA0"],
+      humanFriendly: true
     });
   
     let gauge_employment = new JustGage({
@@ -88,13 +89,14 @@ function createMainFilters(period) {
       value: 0,
       min: 0,
       max: 100,
-      title: "Employment",
+      title: "Employment Rate",
       levelColorsGradient: true,
       counter: true,
       gaugeWidthScale: 0.7,
       hideInnerShadow: true,
       formatNumber: true,
-      levelColors: ["#6F6EA0"]
+      levelColors: ["#6F6EA0"],
+      symbol: '%'
     });  
   
     let gauge_unemployment = new JustGage({
@@ -102,13 +104,14 @@ function createMainFilters(period) {
       value: 0,
       min: 0,
       max: 100,
-      title: "Unemployment",
+      title: "Unemployment Rate",
       levelColorsGradient: true,
       counter: true,
       gaugeWidthScale: 0.7,
       hideInnerShadow: true,
       formatNumber: true,
-      levelColors: ["#6F6EA0"]
+      levelColors: ["#6F6EA0"],
+      symbol: '%'
     });  
     
     $(".js-range-slider").ionRangeSlider({
@@ -124,7 +127,7 @@ function createMainFilters(period) {
 
         sliderYear = data.from_value;
 
-        loadData(APP_BASEURL.concat(`/income_pct_kpi/${sliderYear}`))
+        loadData(APP_BASEURL.concat(`/income_kpi/${sliderYear}`))
           .then(data => {
             gauge_income.refresh(data);;
 
@@ -183,24 +186,28 @@ function plotView1(year, container, dimensions) {
           });
 
           let options = {
-            fontSize:12,
+            fontSize:12,            
             hAxis: {
-              title: 'Employment', 
+              title: '# of People Employed', 
               bold: true,
               format: 'decimal',
               textStyle: {
-                fontSize: 10
+                fontSize: 12
               },
               textPosition : 'out'
             },
             vAxis: {
-              title: 'Average Incoming',
+              title: 'Median Income',
               textStyle : {
-                fontSize: 10
+                fontSize: 12
               },
-              textPosition : 'out'
+              textPosition : 'out',
+              format : 'short'
+
             },
-            backgroundColor: { fill:'transparent' },
+            backgroundColor: { 
+              fill:'transparent' 
+            },            
             colorAxis: {colors: ['#6F6EA0']},
             bubble: {
               textStyle: {
@@ -214,7 +221,12 @@ function plotView1(year, container, dimensions) {
               height:'70%'
             },
             height:dimensions.height,
-            width:dimensions.width
+            width:dimensions.width,
+            title : 'Median Age',
+            titleTextStyle : {
+              fontSize: 12,
+              bold: false
+            }
           };
       
           var chart = new google.visualization.BubbleChart(document.getElementById(container));  
@@ -253,7 +265,19 @@ function plotView2(year, industry, container, dimensions) {
             height:dimensions.height,
             width:dimensions.width        
           };
-    
+
+          if (industrySelection === '1') {
+            options.colorAxis = { colors : ['green']};
+            
+          } else if (industrySelection === '3') {
+            options.colorAxis = { colors : ['blue']};
+
+          } else if (industrySelection === '4') {
+            options.colorAxis = { colors : ['orange']};
+
+          } else if (industrySelection === '5') {
+            options.colorAxis = { colors : ['red']};
+          }
     
         var chart = new google.visualization.GeoChart(document.getElementById(container));
     
@@ -283,12 +307,14 @@ function plotView3(year, container, dimensions) {
           data.forEach(industry => {
             let values = [];
 
+            values.push(industry.industry);
+
             industry.education.forEach(item => {
               values.push(Number(item.number_employed));
             }); 
             
-            //dataTable.addRow([industry.industry, values[0], values[1], values[2], values[3]]);
-            dataTable.addRow([industry.industry, values[0], values[1], values[2]]);
+            //dataTable.addRow([industry.industry, values[0], values[1], values[2]]);
+            dataTable.addRow(values);
           });
 
           let options = {
@@ -296,7 +322,7 @@ function plotView3(year, container, dimensions) {
             fontSize:12,
             backgroundColor: { fill:'transparent' },
             hAxis: {
-              title: 'Education Level',
+              title: 'Highest Level of Education Attained',
               minValue: 0
             },
             vAxis: {
@@ -382,7 +408,7 @@ function plotView4(year, container_left, container_right, dimensions, industry) 
           let options = {
             title: 'Race',
             legend: {
-              position: 'right'
+              position : 'right'
             },
             pieSliceText: 'label',
             slices: {
@@ -423,21 +449,37 @@ function plotSummary() {
       loadData(APP_BASEURL.concat(`/summary`))
         .then(data => {
           let dataTable = new google.visualization.DataTable();
-          let yearsRange = new Set(data.map(item => item.year));
+
           let industries = new Set(data.map(item => item.Industry));
+          let yearsRange = new Set(data.map(item => item.year));          
 
           dataTable.addColumn('string', 'Year');          
           industries.forEach(industry => dataTable.addColumn('number', industry));
 
-          
-          
-          
+          yearsRange.forEach(year => {
+            let values = [];
+
+            values.push(year);
+
+            industries.forEach(industry => {
+              
+              values.push(data.find(item => item.year === year && item.Industry === industry).employment_rate);
+            });
+
+            dataTable.addRow(values);
+          });
+
+          // 2015, 1, 2, 3, 4,,5 ....
           //yearsRange.forEach(item => dataTable.addRow([String(item), getRandomInt(0, 1000), getRandomInt(0, 5000),getRandomInt(0, 5000), getRandomInt(0, 5000), getRandomInt(0, 5000) ]));
       
             let options = {
                 title: 'Employment ratio changes over time',
                 vAxis: {title: 'Employment Ratio'},
                 backgroundColor: { fill: 'transparent' },
+                legend : {
+                  position:'right'
+
+                },
                 animation: defaultAnimation,
                 height: 500,
                 width: 1000,
