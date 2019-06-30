@@ -262,5 +262,20 @@ def employment_kpi(year):
                 'unemployed' : 100*raw_emp['unemployed'] /(raw_emp['employed']+raw_emp['unemployed']) }
     return jsonify(pct_results)
 
+@app.route("/emp_by_ind_kpi/<year>/<industry_sid>")
+def emp_ind_kpi(year,industry_sid):
+    conn = sqlite3.connect("./data/Project3.db")
+    cur = conn.cursor()
+    cur.execute(f"SELECT obs, employ FROM employ WHERE Year='{year}' AND Ind='{industry_sid}';")
+    results=cur.fetchall()
+    raw_emp={}
+    for result in results:
+        dict_title=employ_key[result[1]]
+        raw_emp.update( { dict_title : float(result[0])} )
+    pct_results= { 'employed' : 100*raw_emp['employed'] /(raw_emp['employed']+raw_emp['unemployed']) ,
+                'unemployed' : 100*raw_emp['unemployed'] /(raw_emp['employed']+raw_emp['unemployed']) }
+    return jsonify(pct_results)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
