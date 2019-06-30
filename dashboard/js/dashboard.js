@@ -381,7 +381,9 @@ function plotView4(year, container_left, container_right, dimensions, industry) 
     
           let options = {
             title: 'Race',
-            legend: 'none',
+            legend: {
+              position: 'right'
+            },
             pieSliceText: 'label',
             slices: {
               0: {           
