@@ -108,8 +108,7 @@ def bar_list(year):
                                                                         'number_employed':results2[1][0]},
                                                                         {'education_level':education_key[results2[2][1]],
                                                                         'number_employed':results2[2][0]},
-                                                                        {'education_level':education_key[results2[3][1]],
-                                                                        'number_employed':results2[3][0]}]))
+                                                                        ]))
     return jsonify(bar_group)
 
 # This dictionary holds the state values
