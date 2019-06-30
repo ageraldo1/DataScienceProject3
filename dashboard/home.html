@@ -18,7 +18,7 @@
        <!-- Loading screen component -->
        <div class="loader" id="spinner" style='display:none'></div>
 
-       <nav class="navbar navbar-expand-md navbar-dark bd-navbar">
+       <nav class="navbar navbar-expand-md navbar-dark bd-navbar fixed-top">
           <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
               <ul class="navbar-nav mr-auto">
                   <li class="nav-item active">
@@ -54,7 +54,7 @@
        </nav>
 
     <!-- Main Container -->
-    <div class="container-fluid">       
+    <div class="container-fluid" style="padding-top: 80px">       
 
         <div class="row justify-content-center d-none" id="row1">
             <div class="col-8">
@@ -125,6 +125,12 @@
                   <div class="col-6"><div id="generic_plot_area_right"> </div></div>
                 </div> 
               </div>
+
+              
+              <div class="alert alert-secondary" role="alert">
+                    <span class="fa fa-info-circle" style="padding-right: 20px;"></span>Graph highlights here!                  
+              </div>
+
           </div>    
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -165,6 +171,11 @@
             <div class="modal-body">
                 <div id="summary_plot"> </div>
             </div>    
+
+            <div class="alert alert-secondary" role="alert">
+                <span class="fa fa-info-circle" style="padding-right: 20px;"></span>Graph highlights here!                  
+            </div>
+
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
