@@ -100,7 +100,7 @@ def bar_list(year):
     for row in industry_sid:
         cur = conn.cursor()
         ind_sid=row['industry']
-        cur.execute(f"SELECT Obs, Education FROM Education WHERE Year={year} AND Ind='{ind_sid}';")
+        cur.execute(f"SELECT Obs, Education FROM Education WHERE Year={year} AND Ind='{ind_sid}' AND Education!='0';")
         results2=cur.fetchall()
         bar_group.append(dict(industry=industry_key[ind_sid],education=[{'education_level':education_key[results2[0][1]],
                                                                         'number_employed':results2[0][0]},
@@ -296,6 +296,33 @@ def income_pct_kpi(year):
     income=100*float(results[0][0])*inflation_dict[str(year)]/income_list[0]
     return jsonify(income)
 
+@app.route("/summary")
+def summary():
+    yearrange= ["1950" , "1960" , "1970" , "1980" , "1990" , "2000" , "2010" , "2015" , "2017"]
+    industry_range= [ "1" , "2", "3", "4" , "5"]
+    summary_results=[]
+    for yr in yearrange:
+        for industry_id in industry_range:
+            conn = sqlite3.connect("./data/Project3.db")
+            cur = conn.cursor()
+            cur.execute(f"SELECT obs, employ FROM Employ WHERE Year='{yr}' AND Ind='{industry_id}';")
+            results=cur.fetchall()
+            raw_emp={}
+            for result in results:
+                dict_title=employ_key[result[1]]
+                raw_emp.update( { dict_title : float(result[0])} )
+            try:
+                pct_results= { 'employment_rate' : 100*raw_emp['employed'] /(raw_emp['employed']+raw_emp['unemployed']) , 
+                        'year' : year, 
+                        "Industry" : industry_key[industry_sid]
+                        }
+            except:
+                pct_results= { 'employment_rate' : 100 , 
+                        'year' : yr, 
+                        "Industry" : industry_key[industry_id]
+                        }
+            summary_results.append(pct_results)    
+    return jsonify(summary_results)
 
 if __name__ == "__main__":
     app.run(debug=True)
