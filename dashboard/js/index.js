@@ -31,8 +31,10 @@ document.querySelector('#selectIndustry').addEventListener('change', (e) => {
 
 document.querySelector('#view1_plot').addEventListener('dblclick', () => {
     let modalTitle = document.querySelector('#generic_plot_header');
+    let modalMessage = document.querySelector('#graph_message');
 
     modalTitle.textContent = `Relationship between Employment, Income and Age across Industries (${sliderYear})`;
+    modalMessage.textContent = "Median age and median income, on average, increase over time, regardless of the industry.";
     
     $('#generic_plot_area_left').empty();
     $('#generic_plot_area_right').empty();
@@ -44,8 +46,10 @@ document.querySelector('#view1_plot').addEventListener('dblclick', () => {
 
 document.querySelector('#view2_plot').addEventListener('dblclick', () => {
     let modalTitle = document.querySelector('#generic_plot_header');
+    let modalMessage = document.querySelector('#graph_message');
 
     modalTitle.textContent = `Employment Level across the US by Industry - ${document.querySelector('#selectIndustry').options[document.querySelector('#selectIndustry').selectedIndex].text} (${sliderYear})`;
+    modalMessage.textContent = "The number of workers DECREASE, on average, moving from the eastern to western US, over time - regardless of the industry.";
 
     $('#generic_plot_area_left').empty();
     $('#generic_plot_area_right').empty();
@@ -56,8 +60,10 @@ document.querySelector('#view2_plot').addEventListener('dblclick', () => {
 
 document.querySelector('#view3_plot').addEventListener('dblclick', () => {
     let modalTitle = document.querySelector('#generic_plot_header');
+    let modalMessage = document.querySelector('#graph_message');
 
     modalTitle.textContent = `Education Level across Industries (${sliderYear})`;
+    modalMessage.textContent = "Regardless of the year, Agriculture & Professional Services have the largest % of those with a high school & grad school degree, respectively.  ";
 
     $('#generic_plot_area_left').empty();
     $('#generic_plot_area_right').empty();
@@ -68,8 +74,10 @@ document.querySelector('#view3_plot').addEventListener('dblclick', () => {
 
 document.querySelector('#view4_left').addEventListener('dblclick', () => {
     let modalTitle = document.querySelector('#generic_plot_header');
+    let modalMessage = document.querySelector('#graph_message');
 
     modalTitle.textContent = `Demographics (${sliderYear})`;
+    modalMessage.textContent = "On average, Caucasian males dominate in the industries over time, except in the Professional Services industry.";
 
     $('#generic_plot_area').empty();
     plotView4(sliderYear, 'generic_plot_area_left', 'generic_plot_area_right', {height: 500, width: 500});

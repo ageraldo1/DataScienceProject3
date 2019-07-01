@@ -212,7 +212,9 @@ function plotView1(year, container, dimensions) {
             colorAxis: {colors: ['#6F6EA0']},
             bubble: {
               textStyle: {
-                auraColor: 'none'
+                auraColor: 'none',
+                bold: true,
+                color: 'black'
               },
               opacity: 0.5,        
             },
@@ -251,7 +253,7 @@ function plotView2(year, industry, container, dimensions) {
     loadData(APP_BASEURL.concat(`/states_chlorpleth/${sliderYear}/${industrySelection}`))
       .then(data => {
         dataTable.addColumn('string', 'State');
-        dataTable.addColumn('number', 'Employment');
+        dataTable.addColumn('number', '# people employ');
         
         data.forEach(item => {
           dataTable.addRow([item.state, Number(item.jobs)]);
@@ -313,8 +315,7 @@ function plotView3(year, container, dimensions) {
             industry.education.forEach(item => {
               values.push(Number(item.number_employed));
             }); 
-            
-            //dataTable.addRow([industry.industry, values[0], values[1], values[2]]);
+
             dataTable.addRow(values);
           });
 
@@ -323,8 +324,9 @@ function plotView3(year, container, dimensions) {
             fontSize:12,
             backgroundColor: { fill:'transparent' },
             hAxis: {
-              title: 'Highest Level of Education Attained',
-              minValue: 0
+              title: '# Highest Level of Education Attained',
+              minValue: 0, 
+              maxValue: 2000000
             },
             vAxis: {
               title: 'Industry'
