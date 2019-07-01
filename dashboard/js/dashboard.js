@@ -69,9 +69,10 @@ function refresh() {
 }
 
 function createMainFilters(period) {
+
     let gauge_income = new JustGage({
       id: "gauge_income",
-      value: 0,
+      value: 21217.5,
       min: 0,
       max: 100000,
       title: "Income",
@@ -86,7 +87,7 @@ function createMainFilters(period) {
   
     let gauge_employment = new JustGage({
       id: "gauge_employment",
-      value: 0,
+      value: 96,
       min: 0,
       max: 100,
       title: "Employment Rate",
@@ -101,7 +102,7 @@ function createMainFilters(period) {
   
     let gauge_unemployment = new JustGage({
       id: "gauge_unemployment",
-      value: 0,
+      value: 4,
       min: 0,
       max: 100,
       title: "Unemployment Rate",
