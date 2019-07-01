@@ -1,6 +1,6 @@
 # Robert's script on outliers.
 
-* Instructions for site navigate are in _italics_
+* Instructions for site navigation are in _italics_
 * Time for each paragraph is estimated in `code format`
 * total script is `2:10` unless I get nervous
 
