@@ -22,6 +22,11 @@ def index():
     """Return the homepage."""
     return render_template("index.html")
 
+@app.route("/home.html")
+def home():
+    return render_template("home.html")
+
+
 ## Select all the years in the project
 @app.route("/timespan")
 def years():
@@ -53,12 +58,12 @@ industry_key={ "1": "Agriculture",
 
 # This Dictionary holds the educaiton values
 education_key={ "0": "N/A",
-                "1": "Up to High School",
-                "2": "College",
-                "3": "Graduate"}
+                "1": "High School or less",
+                "2": "College or less",
+                "3": "Grad School or less"}
 
 # This Dictionary holds the race values
-race_key={  "1": "White or Caucasian",
+race_key={  "1": "White/Caucasian",
             "2": "Black/African American",
             "3": "American Indian or Alaska Native",
             "4": "Asian or Pacific Islander",
@@ -200,7 +205,7 @@ def race_pie(year,industry_sid):
     # If there is no race data for the year, return this dictionary
     if not results:
         race_dict={
-            'White or Caucasian': 1000,
+            'White/Caucasian': 1000,
             'Black/African American': 1000,
             'American Indian or Alaska Native': 1000,
             'Asian or Pacific Islander': 1000,
