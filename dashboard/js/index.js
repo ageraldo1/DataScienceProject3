@@ -34,7 +34,7 @@ document.querySelector('#view1_plot').addEventListener('dblclick', () => {
     let modalMessage = document.querySelector('#graph_message');
 
     modalTitle.textContent = `Relationship between Employment, Income and Age across Industries (${sliderYear})`;
-    modalMessage.textContent = "Median age and median income, on average, increase over time, regardless of the industry.";
+    modalMessage.textContent = "Median age and median income (adjusted for inflation), on average, increase over time, regardless of the industry.";
     
     $('#generic_plot_area_left').empty();
     $('#generic_plot_area_right').empty();

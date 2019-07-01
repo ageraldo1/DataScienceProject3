@@ -82,7 +82,9 @@ function createMainFilters(period) {
       hideInnerShadow: true,
       formatNumber: true,
       levelColors: ["#6F6EA0"],
-      humanFriendly: true
+      humanFriendly: true,
+      titleFontColor: 'black',
+      valueFontColor: 'black'
     });
   
     let gauge_employment = new JustGage({
@@ -97,7 +99,9 @@ function createMainFilters(period) {
       hideInnerShadow: true,
       formatNumber: true,
       levelColors: ["#6F6EA0"],
-      symbol: '%'
+      symbol: '%',
+      titleFontColor: 'black',
+      valueFontColor: 'black'
     });  
   
     let gauge_unemployment = new JustGage({
@@ -112,7 +116,9 @@ function createMainFilters(period) {
       hideInnerShadow: true,
       formatNumber: true,
       levelColors: ["#6F6EA0"],
-      symbol: '%'
+      symbol: '%',
+      titleFontColor: 'black',
+      valueFontColor: 'black'
     });  
     
     $(".js-range-slider").ionRangeSlider({
@@ -324,7 +330,7 @@ function plotView3(year, container, dimensions) {
             fontSize:12,
             backgroundColor: { fill:'transparent' },
             hAxis: {
-              title: '# Highest Level of Education Attained',
+              title: '# of Highest Level of Education Attained',
               minValue: 0, 
               maxValue: 2000000
             },
