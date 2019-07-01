@@ -2,7 +2,7 @@
 
 * Instructions for site navigate are in _italics_
 * Time for each paragraph is estimated in `code format`
-* total script is 2:10 unless I get nervous
+* total script is `2:10` unless I get nervous
 
 `0:15`
 Now, since we're up here telling stories. Let's talk a little about the outliers. One of these years is driven by fundamentally different economic forces than all the rest. In 2010, we all recall that the country was just beginning its recovery from the Great Recession.
