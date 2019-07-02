@@ -22,7 +22,7 @@ def index():
     """Return the homepage."""
     return render_template("index.html")
 
-@app.route("/home.html")
+@app.route("/home")
 def home():
     return render_template("home.html")
 
