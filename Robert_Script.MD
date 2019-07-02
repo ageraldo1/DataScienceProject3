@@ -10,7 +10,7 @@ Now, since we're up here telling stories. Let's talk a little about the outliers
 _Navigate to 2010 on the Slider Bar_
 
 `0:15`
-Let's see if we can drill down into the dashboard and find out a little bit more about that recovery. I think the first thing that everyone will notice is that the unemployment rate stands out at 10 percent as shown in the KPI meter up here.
+Let's see if we can drill down into the dashboard and find out a little bit more about that recovery. I think the first thing that everyone will notice is that the employment rate stands out as only 90 percent as shown in the KPI meter up here.
 
 _Navigate to the Summary tab_
 
