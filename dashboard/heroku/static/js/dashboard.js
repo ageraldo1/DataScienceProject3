@@ -450,56 +450,110 @@ function plotView4(year, container_left, container_right, dimensions, industry) 
 
 }
 
-function plotSummary() {
-
+function plotSummary() {  
+  
     google.charts.load("current", {packages:["corechart"]});
     google.charts.setOnLoadCallback(() => {
 
       loadData(APP_BASEURL.concat(`/summary`))
         .then(data => {
+
           let dataTable = new google.visualization.DataTable();
 
           let industries = new Set(data.map(item => item.Industry));
-          let yearsRange = new Set(data.map(item => item.year));          
+          let yearsRange = new Set(data.map(item => item.year)); 
+          let avg_change = [];         
 
           dataTable.addColumn('string', 'Year');          
           industries.forEach(industry => dataTable.addColumn('number', industry));
 
           yearsRange.forEach(year => {
-            let values = [];
-
+            let values = [];           
             values.push(year);
 
-            industries.forEach(industry => {
-              
+            industries.forEach(industry => {              
               values.push(data.find(item => item.year === year && item.Industry === industry).employment_rate);
             });
 
             dataTable.addRow(values);
           });
 
-          // 2015, 1, 2, 3, 4,,5 ....
-          //yearsRange.forEach(item => dataTable.addRow([String(item), getRandomInt(0, 1000), getRandomInt(0, 5000),getRandomInt(0, 5000), getRandomInt(0, 5000), getRandomInt(0, 5000) ]));
-      
-            let options = {
-                title: 'Employment ratio changes over time',
-                vAxis: {title: 'Employment Ratio'},
-                backgroundColor: { fill: 'transparent' },
-                legend : {
-                  position:'right'
+          for (let i = 0; i < dataTable.getNumberOfRows(); i++) {
+            for (let y = 1; y < dataTable.getNumberOfColumns(); y++) {
 
+              let percent_change = avg_change.find(item => item.industry === dataTable.getColumnLabel(y))
+
+              if (percent_change) {
+                percent_change.difference.push(dataTable.getValue(i, y) - percent_change.previous);
+                percent_change.previous = dataTable.getValue(i, y);
+
+              } else {
+                avg_change.push({
+                  'industry':  dataTable.getColumnLabel(y),
+                  'previous': dataTable.getValue(i, y),
+                  'difference': []
+                });
+              }
+            }
+          }
+
+
+          let options = {
+              title: 'Employment rates over time',
+              vAxis: {
+                title: 'Employment rate (%)',
+                textStyle : {
+                  fontSize:12,
+                  bold: true                    
                 },
-                animation: defaultAnimation,
-                height: 500,
-                width: 1000,
-                isStacked: true,
-                connectSteps: false,
-                colors: ['#353052', '#6e679e', '#dbd8ed', 'gray']
-            };
+                format: 'percent',
+                textPosition: 'out',
+                titleTextStyle : {
+                  fontSize: 12,
+                  bold: true
+                },
+                minValue:0                  
+              },
+              backgroundColor: { fill: 'transparent' },
+              legend : {
+                position:'right',
+                textStyle: {
+                  fontSize:12,
+                  bold: false
+                }
+
+              },
+              hAxis: {
+                textStyle : {
+                  fontSize:10
+                }
+              },
+              animation: defaultAnimation,
+              height: 500,
+              width: 1050,
+              isStacked: true,
+              connectSteps: true,
+              colors: ['#353052', '#6e679e', '#dbd8ed', 'gray']               
+          };
       
           var chart = new google.visualization.SteppedAreaChart(document.getElementById('summary_plot'));
-    
-          chart.draw(dataTable, options);  
+              
+          chart.draw(dataTable, options);
+          
+          let industryIndex = 1;
+
+          console.log(avg_change);
+
+          avg_change.forEach(item => {
+            let industry = document.querySelector(`#industry_name_${industryIndex}`);
+            let change = document.querySelector(`#industry_value_${industryIndex}`);
+
+            industry.textContent = item.industry;
+            change.textContent = `${(item.difference.reduce((a,b) => a+b,0) / item.difference.length).toFixed(2)} %`;
+
+            industryIndex++;
+
+          })
         })
         .catch(err => console.log(err));
 

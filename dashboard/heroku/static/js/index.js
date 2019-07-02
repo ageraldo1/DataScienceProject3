@@ -86,8 +86,10 @@ document.querySelector('#view4_left').addEventListener('dblclick', () => {
 
 document.querySelector('#view4_right').addEventListener('dblclick', () => {
     let modalTitle = document.querySelector('#generic_plot_header');
+    let modalMessage = document.querySelector('#graph_message');
 
     modalTitle.textContent = `Demographics (${sliderYear})`;
+    modalMessage.textContent = "On average, Caucasian males dominate in the industries over time, except in the Professional Services industry.";
 
     $('#generic_plot_area').empty();
     plotView4(sliderYear, 'generic_plot_area_left', 'generic_plot_area_right', {height: 500, width: 500});
